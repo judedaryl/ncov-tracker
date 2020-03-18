@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { interval, Observable, from } from 'rxjs';
-import { map, mergeMap, filter, startWith } from 'rxjs/operators'
+import { map, mergeMap, filter, startWith, take } from 'rxjs/operators'
 import { ApiService } from './services/api.service';
-import { NcovStatistic } from './interfaces/ncov-statistic';
+import { OverviewStatistics } from './interfaces/overview-statistics';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +11,7 @@ import { NcovStatistic } from './interfaces/ncov-statistic';
 export class AppComponent implements OnInit {
   title = 'ncov-tracker';
 
-  statisticsData$: Observable<NcovStatistic>;
+  statisticsData$: Observable<OverviewStatistics>;
 
   constructor(private apiService: ApiService) {
 
@@ -21,16 +21,8 @@ export class AppComponent implements OnInit {
     this.setupPullInterval();
   }
 
-  setupPullInterval() {
-    var pullInterval = interval(1000);
-    this.statisticsData$ = pullInterval.pipe(startWith(0), mergeMap(() => this.apiService.getNcovStatistics()), map(q => 
-      q.filter(s => s.country.toLowerCase() === 'philippines')[0]
-    ))
-    
-
-    const source = from([1, 2, 3, 4, 5]);
-//filter out non-even numbers
-const example = source.pipe(filter(num => num % 2 === 0));
+  async setupPullInterval() {
+    this.statisticsData$ = interval(10000).pipe(startWith(0), mergeMap(() => this.apiService.getStatistics()));
   }
 
 

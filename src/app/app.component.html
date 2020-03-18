@@ -10,11 +10,17 @@
       <div class="card-text d-flex flex-row">
         <div class="container">
           <div class="row">
-            <div class="col-3 p-0">
+            <div class="col-5 ">
               <div class="d-flex flex-column">
-                <p class="text-muted h1">{{stat.cases}}</p>
+                <p class="text-muted h1">{{stat.confirmed}}</p>
                 <span class="text-muted">Total</span>
-                <small class="text-info" *ngIf='stat.todayCases !== 0'>{{stat.todayCases}} new cases</small>
+              </div>
+            </div>
+            <div class="col-5 ">
+              <div class="d-flex flex-column">
+                <p class="h1">{{stat.testConducted}}</p>
+                <span class="text-muted">Tests</span>
+                <small class="text-info">Tests conducted</small>
               </div>
             </div>
           </div>
@@ -29,22 +35,17 @@
       <div class="card-text d-flex flex-row">
         <div class="container">
           <div class="row">
-            <div class="col-4 p-0">
+            <div class="col-5 ">
               <div class="d-flex flex-column">
-                <p class="h1">{{stat.active}}</p>
-                <span class="text-muted">Active</span>
+                <p class="h1">{{stat.personsMonitored}}</p>
+                <span class="text-muted">PUMs</span>
+                <small class="text-info">Persons Monitored</small>
               </div>
             </div>
-            <div class="col-4 p-0">
+            <div class="col-5 ">
               <div class="d-flex flex-column">
                 <p class="text-success h1">{{stat.recovered}}</p>
                 <span class="text-muted">Recovered</span>
-              </div>
-            </div>
-            <div class="col-4 p-0">
-              <div class="d-flex flex-column">
-                <p class="h1">{{stat.critical}}</p>
-                <span class="text-muted">Critical</span>
               </div>
             </div>
           </div>
@@ -59,11 +60,10 @@
       <div class="card-text d-flex flex-row">
         <div class="container">
           <div class="row">
-            <div class="col-4 p-0">
+            <div class="col-5 ">
               <div class="d-flex flex-column">
                 <p class="text-danger h1">{{stat.deaths}}</p>
                 <span class="text-muted">Total</span>
-                <small class="text-info" *ngIf='stat.todayDeaths !== 0'>{{stat.todayDeaths}} new deaths</small>
               </div>
             </div>
           </div>
@@ -79,9 +79,34 @@
   </div>
 </ng-template>
 
-<div class="position-fixed ncov-footer border-top ">
-  <div class="container p-3 bg-white d-flex flex-column">
-    <small>Source: <a href="https://www.worldometers.info/coronavirus">Worldometers</a></small>
+<div class="mt-5 container">
+  <h4>About</h4>
+  <p>
+    The ncov tracker in DOH feels bulky and does not have mobile support. This project tries it's best to reflect the same data as the ncov tracker but with 
+    a better user experience, so you can track the latest data on the spread of <b>COVID-19</b> in the Philippines.
+  </p>
+  <p>
+    This project is fully open-source and does not monetize at all. i'm using Github's free static file hosting though GH pages so for now there is no reason to monetize.
+  </p>
+
+  <h4 class="mt-5">Todo:</h4>
+  <ul>
+    <li>Add by city section with search and sort</li>
+    <li>Add by health facility section with search and sort</li>
+    <li>Update to a multi-page layout</li>
+  </ul>
+
+  <h4 class="mt-5">Want to contribute?</h4>
+  <p>
+    This project is made with Angular 8.3 (Not moving to ivy yet). 
+    The repository can be found <a href="https://judedaryl.github.io/ncov-tracker/">here</a>
+    I am using the same data resources as DOH. You can find some examples in the apiService, but if you need more data that reflects the ncov tracker in DOH you can simply
+    reverse engineer the app by sniffing the network.
+  </p>
+</div>
+<div class="my-5">
+  <div class="border-top container p-3 bg-white d-flex flex-column">
+    <small>Source: <a href="https://ncovtracker.doh.gov.ph">Department of Health NcovTracker</a></small>
     <small><a href="https://github.com/judedaryl">Daryl Clariño</a> 2020</small>
   </div>
 </div>
