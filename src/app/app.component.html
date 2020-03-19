@@ -2,79 +2,86 @@
   <a class="navbar-brand h1 m-0" href="/">COVID Tracker Philippines</a>
 </nav>
 
-<div class="container mt-5 pb-5" *ngIf="statisticsData$ | async as stat else loading">
-  <div class="card mt-3">
-    <div class="card-body">
-      <h6 class="card-subtitle mb-2 text-muted">Philippines</h6>
-      <h5 class="card-title mb-2">COVID-19 Cases</h5>
-      <div class="card-text d-flex flex-row">
-        <div class="container">
-          <div class="row">
-            <div class="col-5 ">
-              <div class="d-flex flex-column">
-                <p class="text-muted h1">{{stat.confirmed}}</p>
-                <span class="text-muted">Total</span>
-              </div>
-            </div>
-            <div class="col-5 ">
-              <div class="d-flex flex-column">
-                <p class="h1">{{stat.testConducted}}</p>
-                <span class="text-muted">Tests</span>
-                <small class="text-info">Tests conducted</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="container mt-3 mt-md-4 pb-5" *ngIf="statisticsData$ | async as stat else loading">
+  <div class="row">
+    <div class="col-md mb-2 mb-md-0 ">
+      <app-stat-card [value]="202" title="Cases" textColor="dark" bgColor="light"
+        [information]="'Data as of March 19, 2020'" [headerIcon]="'fa-user'"></app-stat-card>
+    </div>
+    <div class="col-md mb-2 mb-md-0 ">
+      <app-stat-card [value]="stat.deaths" textColor="white" bgColor="danger" title="Deaths"
+        information="{{ (stat.deaths / stat.confirmed) | percent: 2 }} fatality rate" [headerIcon]="'fa-skull'">
+      </app-stat-card>
+    </div>
+    <div class="col-md mb-2 mb-md-0">
+      <app-stat-card [value]="stat.recovered" textColor="white" bgColor="success" title="Recovered"
+        information="{{ (stat.recovered / stat.confirmed) | percent: 2 }} recovery rate" [headerIcon]="'fa-user-check'">
+      </app-stat-card>
+    </div>
+    <div class="col-md mb-2 mb-md-0">
+      <app-stat-card [value]="stat.personsMonitored" textColor="white" bgColor="primary" [title]="'PUMs'"
+        [information]="'Persons monitored'" [headerIcon]="'fa-hospital'"></app-stat-card>
+    </div>
+    <div class="col-md mb-2 mb-md-0">
+      <app-stat-card [value]="stat.testConducted" textColor="white" bgColor="dark" [title]="'Tests'"
+        [information]="'Tests conducted'" [headerIcon]="'fa-vial'"></app-stat-card>
     </div>
   </div>
-  <div class="card mt-3">
-    <div class="card-body">
-      <h6 class="card-subtitle mb-2 text-muted">Philippines</h6>
-      <h5 class="card-title mb-2">Case status</h5>
-      <div class="card-text d-flex flex-row">
-        <div class="container">
-          <div class="row">
-            <div class="col-5 ">
-              <div class="d-flex flex-column">
-                <p class="h1">{{stat.personsMonitored}}</p>
-                <span class="text-muted">PUMs</span>
-                <small class="text-info">Persons Monitored</small>
-              </div>
-            </div>
-            <div class="col-5 ">
-              <div class="d-flex flex-column">
-                <p class="text-success h1">{{stat.recovered}}</p>
-                <span class="text-muted">Recovered</span>
-              </div>
-            </div>
-          </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md mb-3 mb-md-0">
+      <div class="card" *ngIf="facilityData$ | async as facilities else loading">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Cases by facility</h5>
+          <small class="text-muted">Search by facility name</small>
+          <input type="text" class="form-control mt-2" placeholder="e.g. Hospital" aria-label="Facility Name"
+          aria-describedby="basic-addon2" [formControl]="facilityFilter">
         </div>
+       <div class="facility-list">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let data of facilities">
+            <div class="d-flex flex-row justify-content-between">
+              {{ data.facility }}
+              <div>
+                <span class="badge badge-dark">{{ data.cases.length }}</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+       </div>
       </div>
     </div>
-  </div>
-  <div class="card mt-3">
-    <div class="card-body">
-      <h6 class="card-subtitle mb-2 text-muted">Philippines</h6>
-      <h5 class="card-title mb-2">Deaths</h5>
-      <div class="card-text d-flex flex-row">
-        <div class="container">
-          <div class="row">
-            <div class="col-5 ">
-              <div class="d-flex flex-column">
-                <p class="text-danger h1">{{stat.deaths}}</p>
-                <span class="text-muted">Total</span>
+    <div class="col-md">
+      <div class="card" *ngIf="residenceData$ | async as residences else loading">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Cases by residence</h5>
+          <small class="text-muted">Search by residence</small>
+          <input type="text" class="form-control mt-2" placeholder="e.g. Manila" aria-label="Residence"
+          aria-describedby="basic-addon2" [formControl]="residenceFilter">
+        </div>
+       <div class="facility-list">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let data of residences">
+            <div class="d-flex flex-row justify-content-between">
+              {{ data.residence }}
+              <div>
+                <span class="badge badge-dark">{{ data.value }}</span>
               </div>
             </div>
-          </div>
-        </div>
+          </li>
+        </ul>
+       </div>
       </div>
     </div>
   </div>
 </div>
 
+
+
 <ng-template #loading>
-  <div class="container mt-5">
+  <div class="container p-5">
     <span class="text-muted">Loading data...</span>
   </div>
 </ng-template>
@@ -82,31 +89,34 @@
 <div class="mt-5 container">
   <h4>About</h4>
   <p>
-    The ncov tracker in DOH feels bulky and does not have mobile support. This project tries it's best to reflect the same data as the ncov tracker but with 
+    The ncov tracker in DOH feels bulky and does not have mobile support. This project tries it's best to reflect the
+    same data as the ncov tracker but with
     a better user experience, so you can track the latest data on the spread of <b>COVID-19</b> in the Philippines.
   </p>
   <p>
-    This project is fully open-source and does not monetize at all. i'm using Github's free static file hosting though GH pages so for now there is no reason to monetize.
+    This project is fully open-source and does not monetize at all. i'm using Github's free static file hosting though
+    GH pages so for now there is no reason to monetize.
   </p>
 
   <h4 class="mt-5">Todo:</h4>
   <ul>
-    <li>Add by city section with search and sort</li>
-    <li>Add by health facility section with search and sort</li>
+    <li>Add by city section with sort</li>
+    <li>Add by health facility section with sort</li>
     <li>Update to a multi-page layout</li>
   </ul>
 
   <h4 class="mt-5">Want to contribute?</h4>
   <p>
-    This project is made with Angular 8.3 (Not moving to ivy yet). 
+    This project is made with Angular 8.3 (Not moving to ivy yet).
     The repository can be found <a href="https://judedaryl.github.io/ncov-tracker/">here</a>
-    I am using the same data resources as DOH. You can find some examples in the apiService, but if you need more data that reflects the ncov tracker in DOH you can simply
+    I am using the same data resources as DOH. You can find some examples in the apiService, but if you need more data
+    that reflects the ncov tracker in DOH you can simply
     reverse engineer the app by sniffing the network.
   </p>
 </div>
 <div class="my-5">
   <div class="border-top container p-3 bg-white d-flex flex-column">
     <small>Source: <a href="https://ncovtracker.doh.gov.ph">Department of Health NcovTracker</a></small>
-    <small><a href="https://github.com/judedaryl">Daryl Clariño</a> 2020</small>
+    <small><a href="https:/judedaryl.github.io">Daryl Clariño</a> 2020</small>
   </div>
 </div>

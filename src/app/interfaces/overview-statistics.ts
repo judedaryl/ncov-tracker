@@ -4,4 +4,5 @@ export interface OverviewStatistics {
     recovered: number;
     personsMonitored: number;
     testConducted: number;
+    asOfDate: Date;
 }
