@@ -5,7 +5,7 @@
 <div class="container mt-3 mt-md-4 pb-5" *ngIf="statisticsData$ | async as stat else loading">
   <div class="row">
     <div class="col-md mb-2 mb-md-0 ">
-      <app-stat-card [value]="202" title="Cases" textColor="dark" bgColor="light"
+      <app-stat-card [value]="stat.confirmed" title="Cases" textColor="dark" bgColor="light"
         [information]="'Data as of March 19, 2020'" [headerIcon]="'fa-user'"></app-stat-card>
     </div>
     <div class="col-md mb-2 mb-md-0 ">
