@@ -3,6 +3,7 @@ export interface OverviewStatistics {
     deaths: number;
     recovered: number;
     personsMonitored: number;
+    personsInvestigated: number;
     testConducted: number;
     asOfDate: Date;
 }

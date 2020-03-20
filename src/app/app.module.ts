@@ -5,17 +5,23 @@ import { AppComponent } from './app.component';
 import { PercentPipe } from './pipes/percent.pipe';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CaseChartComponent } from './components/case-chart/case-chart.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { AgeChartComponent } from './components/age-chart/age-chart.component'
 @NgModule({
   declarations: [
     AppComponent,
     PercentPipe,
-    StatCardComponent
+    StatCardComponent,
+    CaseChartComponent,
+    AgeChartComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

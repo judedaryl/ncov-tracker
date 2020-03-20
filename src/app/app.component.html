@@ -4,53 +4,64 @@
 
 <div class="container mt-3 mt-md-4 pb-5" *ngIf="statisticsData$ | async as stat else loading">
   <div class="row">
-    <div class="col-md mb-2 mb-md-0 ">
+    <div class="col-lg mb-2 mb-lg-0 ">
       <app-stat-card [value]="stat.confirmed" title="Cases" textColor="dark" bgColor="light"
-        [information]="'Data as of March 19, 2020'" [headerIcon]="'fa-user'"></app-stat-card>
+        [information]="today | date : 'MMM dd, yyyy'" [headerIcon]="'fa-user'"></app-stat-card>
     </div>
-    <div class="col-md mb-2 mb-md-0 ">
+    <div class="col-lg mb-2 mb-lg-0 ">
       <app-stat-card [value]="stat.deaths" textColor="white" bgColor="danger" title="Deaths"
         information="{{ (stat.deaths / stat.confirmed) | percent: 2 }} fatality rate" [headerIcon]="'fa-skull'">
       </app-stat-card>
     </div>
-    <div class="col-md mb-2 mb-md-0">
+    <div class="col-lg mb-2 mb-lg-0">
       <app-stat-card [value]="stat.recovered" textColor="white" bgColor="success" title="Recovered"
         information="{{ (stat.recovered / stat.confirmed) | percent: 2 }} recovery rate" [headerIcon]="'fa-user-check'">
       </app-stat-card>
     </div>
-    <div class="col-md mb-2 mb-md-0">
+    <div class="col-lg mb-2 mb-lg-0">
       <app-stat-card [value]="stat.personsMonitored" textColor="white" bgColor="primary" [title]="'PUMs'"
         [information]="'Persons monitored'" [headerIcon]="'fa-hospital'"></app-stat-card>
     </div>
-    <div class="col-md mb-2 mb-md-0">
+    <div class="col-lg mb-2 mb-lg-0">
+      <app-stat-card [value]="stat.testConducted" textColor="dark" bgColor="white" [title]="'PUIs'"
+        [information]="'Persons investigated'" [headerIcon]="'fa-vial'"></app-stat-card>
+    </div>
+    <div class="col-lg mb-2 mb-lg-0">
       <app-stat-card [value]="stat.testConducted" textColor="white" bgColor="dark" [title]="'Tests'"
         [information]="'Tests conducted'" [headerIcon]="'fa-vial'"></app-stat-card>
     </div>
   </div>
 </div>
 
-<div class="container">
+<div class="container  mt-3 mt-md-4">
   <div class="row">
     <div class="col-md mb-3 mb-md-0">
       <div class="card" *ngIf="facilityData$ | async as facilities else loading">
         <div class="card-body">
           <h5 class="card-title mb-3">Cases by facility</h5>
           <small class="text-muted">Search by facility name</small>
-          <input type="text" class="form-control mt-2" placeholder="e.g. Hospital" aria-label="Facility Name"
-          aria-describedby="basic-addon2" [formControl]="facilityFilter">
-        </div>
-       <div class="facility-list">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="let data of facilities">
-            <div class="d-flex flex-row justify-content-between">
-              {{ data.facility }}
-              <div>
-                <span class="badge badge-dark">{{ data.cases.length }}</span>
-              </div>
+          <div class="input-group  mt-2">
+            <input type="text" class="form-control" placeholder="e.g. Hospital" aria-label="Facility Name"
+              aria-describedby="Facility Name" [formControl]="facilityFilter">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="facilityFilter.reset('')">
+                <i class="fas fa-times"></i>
+              </button>
             </div>
-          </li>
-        </ul>
-       </div>
+          </div>
+        </div>
+        <div class="facility-list">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let data of facilities">
+              <div class="d-flex flex-row justify-content-between">
+                {{ data.facility }}
+                <div>
+                  <span class="badge badge-dark">{{ data.cases.length }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="col-md">
@@ -58,22 +69,48 @@
         <div class="card-body">
           <h5 class="card-title mb-3">Cases by residence</h5>
           <small class="text-muted">Search by residence</small>
-          <input type="text" class="form-control mt-2" placeholder="e.g. Manila" aria-label="Residence"
-          aria-describedby="basic-addon2" [formControl]="residenceFilter">
-        </div>
-       <div class="facility-list">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" *ngFor="let data of residences">
-            <div class="d-flex flex-row justify-content-between">
-              {{ data.residence }}
-              <div>
-                <span class="badge badge-dark">{{ data.value }}</span>
-              </div>
+          <div class="input-group  mt-2">
+            <input type="text" class="form-control" placeholder="e.g. Manila" aria-label="Residence"
+              aria-describedby="basic-addon2" [formControl]="residenceFilter">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="residenceFilter.reset('')">
+                <i class="fas fa-times"></i>
+              </button>
             </div>
-          </li>
-        </ul>
-       </div>
+          </div>
+        </div>
+        <div class="facility-list">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let data of residences">
+              <div class="d-flex flex-row justify-content-between">
+                {{ data.residence }}
+                <div>
+                  <span class="badge badge-dark">{{ data.value }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3 mt-md-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Case trends</h5>
+    </div>
+    <div class="p-3">
+      <app-case-chart [caseStatistics]="caseStatistics$ | async"></app-case-chart>
+    </div>
+  </div>
+  <div class="card mt-3 mt-md-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Age group distribution</h5>
+    </div>
+    <div class="p-3">
+      <app-age-chart [statistics]="ageGroupStatistics$ | async"></app-age-chart>
     </div>
   </div>
 </div>

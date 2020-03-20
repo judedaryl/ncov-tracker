@@ -1,0 +1,9 @@
+{
+    "rest-client.decodeEscapedUnicodeCharacters": true,
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "baseUri": "https://services5.arcgis.com"
+        }
+    },
+    "rest-client.previewOption": "exchange"
+}
