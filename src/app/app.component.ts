@@ -13,6 +13,7 @@ import { AgeGroupApiService } from './services/age-group-api.service';
 import { InventoryStatistic } from './interfaces/inventory-statistic';
 import { InventoryApiService } from './services/inventory-api.service';
 import { AggregatedStatistic } from './interfaces/aggregated-statistic';
+import { PuiApiService } from './services/pui-api.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,6 +30,8 @@ export class AppComponent implements OnInit {
   ageGroupStatistics$: Observable<AgeGroupStatistic[]>;
   inventoryData$: Observable<InventoryStatistic[]>;
   nationalityData$: Observable<AggregatedStatistic[]>;
+  puiRegionData$: Observable<AggregatedStatistic[]>;
+  puiFacilityData$: Observable<AggregatedStatistic[]>;
 
   facilityFilter: FormControl;
   facilityFilter$: Observable<string>;
@@ -36,20 +39,30 @@ export class AppComponent implements OnInit {
   residenceFilter$: Observable<string>;
   inventoryFilter: FormControl;
   inventoryFilter$: Observable<string>;
+  puiRegionFilter: FormControl;
+  puiRegionFilter$: Observable<string>;
+  puiFacilityFilter: FormControl;
+  puiFacilityFilter$: Observable<string>;
 
   constructor(
     private apiService: ApiService,
     private confirmedApiService: ConfirmedApiService,
     private ageGroupApiService: AgeGroupApiService,
     private inventoryApiService: InventoryApiService,
+    private puiApiService: PuiApiService,
     builder: FormBuilder) {
 
     this.facilityFilter = builder.control('');
     this.residenceFilter = builder.control('');
     this.inventoryFilter = builder.control('');
+    this.puiRegionFilter = builder.control('');
+    this.puiFacilityFilter = builder.control('');
+
     this.facilityFilter$ = this.facilityFilter.valueChanges.pipe(startWith(''));
     this.residenceFilter$ = this.residenceFilter.valueChanges.pipe(startWith(''));
     this.inventoryFilter$ = this.inventoryFilter.valueChanges.pipe(startWith(''));
+    this.puiRegionFilter$ = this.puiRegionFilter.valueChanges.pipe(startWith(''));
+    this.puiFacilityFilter$ = this.puiFacilityFilter.valueChanges.pipe(startWith(''));
   }
 
   ngOnInit(): void {
@@ -95,6 +108,15 @@ export class AppComponent implements OnInit {
         data.region.toLowerCase().indexOf(filterString.toLowerCase()) !== -1))
     )
 
+    this.puiRegionData$ = combineLatest(this.puiApiService.getPuiRegionStatistic(), this.puiRegionFilter$).pipe(
+      map(([arr, filterString]) => arr.filter(data =>
+        data.aggregateKey.toLowerCase().indexOf(filterString.toLowerCase()) !== -1))
+    )
+
+    this.puiFacilityData$ = combineLatest(this.puiApiService.getPuiHospitalFacilityStatistic(), this.puiFacilityFilter$).pipe(
+      map(([arr, filterString]) => arr.filter(data =>
+        data.aggregateKey.toLowerCase().indexOf(filterString.toLowerCase()) !== -1))
+    )
     this.caseStatistics$ = this.confirmedApiService.getConfirmedStatistics();
     this.ageGroupStatistics$ = this.ageGroupApiService.getAgeGroupStatistics();
     this.nationalityData$ = this.apiService.getNationalityStatistic();

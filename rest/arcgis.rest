@@ -109,3 +109,18 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/commodities/FeatureServer/
 &cacheHint=true
 &outStatistics=
 ###
+
+
+# @name PUIRegion
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PUI_fac_tracing/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=value desc
+&cacheHint=true
+&groupByFieldsForStatistics=hf
+&outStatistics=[{"statisticType":"sum","onStatisticField":"PUIs","outStatisticFieldName":"value"}]
+###

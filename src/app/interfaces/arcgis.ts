@@ -65,3 +65,22 @@ export interface InventoryResponse {
     sanitizer: number;
     gloves: number;
 }
+
+export interface PuiTracingResponse {
+    region: string;
+    hf: string;
+    latitude: number;
+    longtitude: number;
+    PUIs: number;
+}
+
+export interface PuiRegionResponse {
+    value: number;
+    region: string;
+}
+
+
+export interface PuiHospitalFacilityResponse {
+    value: number;
+    hf: string;
+}

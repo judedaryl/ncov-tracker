@@ -128,7 +128,67 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3 mb-3 mb-md-0">
+      <div class="card" *ngIf="puiRegionData$ | async as arr else loading">
+        <div class="card-body">
+          <h5 class="card-title mb-3">PUIs by region</h5>
+          <small class="text-muted">Search by region</small>
+          <div class="input-group  mt-2">
+            <input type="text" class="form-control" placeholder="e.g. NCR" aria-label="Residence"
+              aria-describedby="basic-addon2" [formControl]="puiRegionFilter">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="puiRegionFilter.reset('')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="facility-list">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let data of arr">
+              <div class="d-flex flex-row justify-content-between">
+                {{ data.aggregateKey }}
+                <div>
+                  <span class="badge badge-dark">{{ data.value }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3 mb-md-0">
+      <div class="card" *ngIf="puiFacilityData$ | async as arr else loading">
+        <div class="card-body">
+          <h5 class="card-title mb-3">PUIs by facility</h5>
+          <small class="text-muted">Search by facility</small>
+          <div class="input-group  mt-2">
+            <input type="text" class="form-control" placeholder="e.g. Medical facility" aria-label="Residence"
+              aria-describedby="basic-addon2" [formControl]="puiFacilityFilter">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="puiFacilityFilter.reset('')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="facility-list">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let data of arr">
+              <div class="d-flex flex-row justify-content-between">
+                {{ data.aggregateKey }}
+                <div>
+                  <span class="badge badge-dark">{{ data.value }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 mt-md-4">
+    <div class="col-md">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title mb-3">Medical supply inventory</h5>
