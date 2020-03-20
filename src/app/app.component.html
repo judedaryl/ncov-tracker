@@ -5,8 +5,8 @@
 <div class="container mt-3 mt-md-4 pb-5" *ngIf="statisticsData$ | async as stat else loading">
   <div class="row">
     <div class="col-lg mb-2 mb-lg-0 ">
-      <app-stat-card [value]="stat.confirmed" title="Cases" textColor="dark" bgColor="light"
-        [information]="today | date : 'MMM dd, yyyy'" [headerIcon]="'fa-user'"></app-stat-card>
+      <app-stat-card [value]="stat.confirmed" title="Confirmed Cases" textColor="dark" bgColor="light"
+        information="as of {{today | date : 'MMM dd, yyyy'}}" [headerIcon]="'fa-user'"></app-stat-card>
     </div>
     <div class="col-lg mb-2 mb-lg-0 ">
       <app-stat-card [value]="stat.deaths" textColor="white" bgColor="danger" title="Deaths"
@@ -24,7 +24,7 @@
     </div>
     <div class="col-lg mb-2 mb-lg-0">
       <app-stat-card [value]="stat.personsInvestigated" textColor="dark" bgColor="white" [title]="'PUIs'"
-        [information]="'Persons investigated'" [headerIcon]="'fa-vial'"></app-stat-card>
+        [information]="'Persons investigated'" [headerIcon]="'fa-search'"></app-stat-card>
     </div>
     <div class="col-lg mb-2 mb-lg-0">
       <app-stat-card [value]="stat.testConducted" textColor="white" bgColor="dark" [title]="'Tests'"
