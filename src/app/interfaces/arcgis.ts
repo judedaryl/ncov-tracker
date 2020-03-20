@@ -35,6 +35,11 @@ export interface ResidenceResponse {
     residence: string;
 }
 
+export interface NationalityResponse {
+    value: number;
+    nationalit: string;
+}
+
 export interface ConfirmedResponse {
     date: number;
     admitted: number;
@@ -49,4 +54,14 @@ export interface AgeGroupResponse {
     value: number;
     age_categ: AgeGroup;
     sex: GenderGroup;
+}
+
+export interface InventoryResponse {
+    region: string;
+    n95: number;
+    surgmask: number;
+    osetamivir: number;
+    ppe: number;
+    sanitizer: number;
+    gloves: number;
 }

@@ -1,15 +1,17 @@
-import { ArcgisResponse, ValueResponse, FacilityResponse, ResidenceResponse, ConfirmedResponse, AgeGroupResponse, AgeGroup, GenderGroup, OverviewResponse } from '../interfaces/arcgis';
+import { ArcgisResponse, ValueResponse, FacilityResponse, ResidenceResponse, ConfirmedResponse, AgeGroupResponse, AgeGroup, GenderGroup, OverviewResponse, InventoryResponse, NationalityResponse } from '../interfaces/arcgis';
 import { FacilityStatistics } from '../interfaces/facility-statistics';
 import { ResidenceStatistics } from '../interfaces/residence-statistics';
 import { CaseStatistic } from '../interfaces/case-statistic';
 import { AgeGroupStatistic } from '../interfaces/age-group-statistic';
 import { OverviewStatistics } from '../interfaces/overview-statistics';
+import { InventoryStatistic } from '../interfaces/inventory-statistic';
+import { AggregatedStatistic } from '../interfaces/aggregated-statistic';
 
 export const getValueFromStatisticResponse = (arcgis: ArcgisResponse<ValueResponse<number>>) =>
     arcgis.features[0] && arcgis.features[0].attributes.value;
 
 export function getOverviewFromResponse(arcgis: ArcgisResponse<OverviewResponse>): OverviewStatistics {
-    let { day, confirmed, PUIs, PUMs, deaths, recovered, tests} = arcgis.features[0].attributes;
+    let { day, confirmed, PUIs, PUMs, deaths, recovered, tests } = arcgis.features[0].attributes;
     return {
         asOfDate: new Date(day),
         confirmed,
@@ -52,6 +54,9 @@ function getFacilityName(facilityResponse: FacilityResponse[]) {
 export const getResidenceStatistic = (arcgis: ArcgisResponse<ResidenceResponse>): ResidenceStatistics[] =>
     arcgis.features.map(q => q.attributes);
 
+export const getAggregatedNationalityStatistic = (arcgis: ArcgisResponse<NationalityResponse>): AggregatedStatistic[] =>
+    arcgis.features.map(q => q.attributes).map(({ value, nationalit }) => ({ value, aggregateKey: nationalit }));
+
 export const getConfirmedStatistic = (arcgis: ArcgisResponse<ConfirmedResponse>): CaseStatistic[] =>
     arcgis.features.map(q => q.attributes);
 
@@ -63,9 +68,12 @@ export function getAgeGroupStatistic(arcgis: ArcgisResponse<AgeGroupResponse>): 
     }, {})
     return Object.keys(hashMap).map((key: GenderGroup) => ({
         gender: key,
-        categories: hashMap[key].map(({age_categ, value}) => ({
+        categories: hashMap[key].map(({ age_categ, value }) => ({
             category: age_categ,
             value
         }))
     }));
 }
+
+export const getInventoryStatistic = (arcgis: ArcgisResponse<InventoryResponse>): InventoryStatistic[] =>
+    arcgis.features.map(q => q.attributes);

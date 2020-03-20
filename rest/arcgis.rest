@@ -29,6 +29,22 @@ GET https://services.arcgis.com/5T5nSi527N4F7luB/arcgis/rest/services/Cases_by_c
 f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&maxAllowableOffset=78271&geometry=%7B%22xmin%22%3A-20037508.342788905%2C%22ymin%22%3A-20037508.342779063%2C%22xmax%22%3A20037508.342779063%2C%22ymax%22%3A20037508.342788905%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&outSR=102100&resultType=tile
 
 
+###
+
+# @name groupedByGender
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&resultOffset=0
+&resultRecordCount=1000
+&cacheHint=true
+&orderByFields=value asc
+&groupByFieldsForStatistics=nationalit 
+&outStatistics=[{"statisticType":"count","onStatisticField":"FID","outStatisticFieldName":"value"}]
+###
 
 
 ###
@@ -75,6 +91,21 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/
 &orderByFields=
 &resultOffset=0
 &resultRecordCount=1000
+&cacheHint=true
+&outStatistics=
+###
+
+
+
+# @name inventory
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/commodities/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
 &cacheHint=true
 &outStatistics=
 ###
