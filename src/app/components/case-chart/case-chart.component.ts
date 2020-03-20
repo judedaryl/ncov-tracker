@@ -64,10 +64,10 @@ export class CaseChartComponent implements OnInit {
 
     const caseSeries: Highcharts.SeriesOptionsType = {
       ...baseSeries, 
-      name: 'Cases',
+      name: 'Admitted',
       color: 'var(--primary)',
-      data: stats.map(({ date, admitted, deaths, recovered }) => ({
-        y: admitted + deaths + recovered,
+      data: stats.map(({ date, admitted }) => ({
+        y: admitted,
         x: date
       }))
     }
