@@ -2,7 +2,7 @@
   <a class="navbar-brand h1 m-0" href="/">COVID Tracker Philippines</a>
 </nav>
 
-<div class="container mt-3 mt-md-4 pb-5" *ngIf="statisticsData$ | async as stat else loading">
+<div class="container-fluid mt-3 mt-md-4 pb-5" *ngIf="statisticsData$ | async as stat else loading">
   <div class="row">
     <div class="col-lg mb-2 mb-lg-0 ">
       <app-stat-card [value]="stat.confirmed" title="Confirmed Cases" textColor="dark" bgColor="light"
@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<div class="container  mt-3 mt-md-4">
+<div class="container-fluid  mt-3 mt-md-4">
   <div class="row">
     <div class="col-md mb-3 mb-md-0">
       <div class="card" *ngIf="facilityData$ | async as facilities else loading">
@@ -96,7 +96,7 @@
   </div>
 </div>
 
-<div class="container mt-3 mt-md-4">
+<div class="container-fluid mt-3 mt-md-4">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title mb-3">Case trends</h5>
@@ -165,7 +165,7 @@
 
 
 <ng-template #loading>
-  <div class="container p-5">
+  <div class="container-fluid p-5">
     <span class="text-muted">Loading data...</span>
   </div>
 </ng-template>
