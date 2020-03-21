@@ -44,6 +44,8 @@ export class AppComponent implements OnInit {
   puiFacilityFilter: FormControl;
   puiFacilityFilter$: Observable<string>;
 
+  showAlert = true;
+
   constructor(
     private apiService: ApiService,
     private confirmedApiService: ConfirmedApiService,
@@ -63,6 +65,13 @@ export class AppComponent implements OnInit {
     this.inventoryFilter$ = this.inventoryFilter.valueChanges.pipe(startWith(''));
     this.puiRegionFilter$ = this.puiRegionFilter.valueChanges.pipe(startWith(''));
     this.puiFacilityFilter$ = this.puiFacilityFilter.valueChanges.pipe(startWith(''));
+
+    this.showAlert = localStorage.getItem('show-alert') !== 'false';
+  }
+
+  closeAlert() {
+    this.showAlert = false;
+    localStorage.setItem('show-alert', 'false')
   }
 
   ngOnInit(): void {

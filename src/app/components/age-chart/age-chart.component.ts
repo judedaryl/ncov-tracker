@@ -11,12 +11,12 @@ import { HighchartsChartComponent } from 'highcharts-angular';
 export class AgeChartComponent implements OnInit {
   @Input() set statistics(stats: AgeGroupStatistic[]) {
     this.chartOptions.series = this.buildSeries(stats || []);
-    if(typeof this.chart !== 'undefined') {
+    if (typeof this.chart !== 'undefined') {
       this.chart.updateOrCreateChart();
     }
   }
 
-  @ViewChild('chart', {static : false}) chart: HighchartsChartComponent;
+  @ViewChild('chart', { static: false }) chart: HighchartsChartComponent;
 
   Highcharts: typeof Highcharts = Highcharts; // required
   chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
@@ -37,7 +37,10 @@ export class AgeChartComponent implements OnInit {
     },
     yAxis: {
       labels: {
-        enabled: true
+        enabled: true,
+        formatter: function () {
+          return Math.abs(this.value).toString();
+        }
       },
       title: {
         text: ''
@@ -59,11 +62,11 @@ export class AgeChartComponent implements OnInit {
   ngOnInit() {
   }
 
-  buildSeries = (statistics: AgeGroupStatistic[]): Highcharts.SeriesOptionsType[]  => 
+  buildSeries = (statistics: AgeGroupStatistic[]): Highcharts.SeriesOptionsType[] =>
     statistics.map(({ gender, categories }) => ({
       type: 'bar',
       name: gender,
-      data: categories.map(({category, value}) => ([category, value]))
+      data: categories.map(({ category, value }) => ([category, gender === 'Female' ? -value : value]))
     }))
 
 }
