@@ -4,7 +4,8 @@
 
 <div class="container-fluid mt-3 mt-md-4" *ngIf="showAlert">
   <div class="alert alert-info alert-dismissible fade show" role="alert">
-    <strong>Note: </strong>This uses the same data source as the <a href="https://ncovtracker.doh.gov.ph/" target="_blank">DOH's ncov tracker</a>
+    <strong>Note: </strong>This uses the same data source as the <a href="https://ncovtracker.doh.gov.ph/"
+      target="_blank">DOH's ncov tracker</a>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -274,71 +275,86 @@
 
 
 
-
 <div class="mt-5 container-fluid">
+  <h4>Social</h4>
   <div class="row">
     <div class="col-lg">
       <div class="fb-comments" data-href="https://www.facebook.com/superricksanchez/posts/245060866527594"
         data-width="100%" data-numposts="5"></div>
     </div>
-    <div class="col-lg">
-      <h4>Useful links:</h4>
-      <ul>
-        <li><a href="https://www.doh.gov.ph/2019-nCov/FAQs">Frequently Asked Questions</a></li>
-        <li><a href="https://www.doh.gov.ph/COVID-19/Gabay-sa-Publiko">Gabay sa Publiko</a></li>
-        <li><a href="https://www.doh.gov.ph/2019-nCov/interim-guidelines">Interim Guidelines</a></li>
-        <li><a href="https://www.doh.gov.ph/node/19198">Situational Reports</a></li>
-        <li><a href="https://www.doh.gov.ph/2019-nCov/advisories">Public Advisories</a></li>
-        <li><a href="https://www.doh.gov.ph/2019-nCov/infographics">Infographics</a></li>
-        <li><a href="https://www.doh.gov.ph/2019-ncov-presscon">Press Briefings</a></li>
-      </ul>
-
-      <h4 class="mt-5">Found this helpful?</h4>
-      <p>
-        This service is completely free and aims to help our community get official information during this pandemic.
-        If you found this helpful, buy me a beer or a cup of coffee!
-      </p>
-      <a class="btn btn-primary" target="_blank" href="https://paypal.me/judedaryl?locale.x=en_US">
-        <i class="fab fa-paypal"></i> Donate
-      </a>
-
-      <h4 class="mt-5">About</h4>
-      <p>
-        This project <b>uses the same data as DOH</b>. This means that i am in no way whatsoever doing manual intervention on
-        the data or running any kind of script, just fetching some data from their source.
-      </p>
-      <p>
-        The only difference with this and DOH tracker is the user interface, it's lighter and mobile friendly so you can
-        easily track the latest on the spread of <b>COVID-19</b> in the
-        Philippines.
-      </p>
-      <p>
-        This project is fully open-source using Github pages as a host.
-      </p>
-
-      <h4 class="mt-5">Todo (March 21, 2020):</h4>
-      <ul>
-        <li>Add sorting on the searchable sections.</li>
-        <li>Update to a multi-page layout so it's easier to use on mobile.</li>
-        <li>Buy a proper domain so the site is easily remembered.</li>
-      </ul>
-
-      <h4 class="mt-5">Want to contribute?</h4>
-      <p>
-        This project is made with Angular 8.3 (Not moving to ivy yet).
-        The repository can be found <a href="https://github.com/judedaryl/ncov-tracker/">here</a>
-        I am using the same data resources as DOH. You can find some examples in the apiService, but if you need more
-        data
-        that reflects the ncov tracker in DOH you can simply
-        reverse engineer the app by sniffing the network.
-      </p>
-      <a class="btn btn-primary" target="_blank" href="https://github.com/judedaryl/ncov-tracker/">
-        <i class="fab fa-github"></i> Contribute
-      </a>
+    <div class="col-lg-3 mt-md-0 mt-3">
+      <app-twitter-feed></app-twitter-feed>
     </div>
   </div>
 </div>
 
+
+
+<div class="mt-5 container">
+  <h4>Useful links:</h4>
+  <ul>
+    <li><a href="https://www.doh.gov.ph/2019-nCov/FAQs">Frequently Asked Questions</a></li>
+    <li><a href="https://www.doh.gov.ph/COVID-19/Gabay-sa-Publiko">Gabay sa Publiko</a></li>
+    <li><a href="https://www.doh.gov.ph/2019-nCov/interim-guidelines">Interim Guidelines</a></li>
+    <li><a href="https://www.doh.gov.ph/node/19198">Situational Reports</a></li>
+    <li><a href="https://www.doh.gov.ph/2019-nCov/advisories">Public Advisories</a></li>
+    <li><a href="https://www.doh.gov.ph/2019-nCov/infographics">Infographics</a></li>
+    <li><a href="https://www.doh.gov.ph/2019-ncov-presscon">Press Briefings</a></li>
+  </ul>
+
+  <h4 class="mt-5">Found this helpful?</h4>
+  <p>
+    This service is completely free and aims to help our community get official information during this pandemic.
+    If you found this helpful, buy me a beer or a cup of coffee!
+  </p>
+  <a class="btn btn-primary" target="_blank" href="https://paypal.me/judedaryl?locale.x=en_US">
+    <i class="fab fa-paypal"></i> Donate
+  </a>
+
+  <h4 class="mt-5">Share</h4>
+  <p>
+    Do you want to recommend this app to your friends? Share it!
+  </p>
+  <div class="d-flex flex-column">
+    <app-facebook-share class="mb-2"></app-facebook-share>
+    <app-twitter-tweet></app-twitter-tweet>
+  </div>
+
+  <h4 class="mt-5">About</h4>
+  <p>
+    This project <b>uses the same data as DOH</b>. This means that i am in no way whatsoever doing manual intervention
+    on
+    the data or running any kind of script, just fetching some data from their source.
+  </p>
+  <p>
+    The only difference with this and DOH tracker is the user interface, it's lighter and mobile friendly so you can
+    easily track the latest on the spread of <b>COVID-19</b> in the
+    Philippines.
+  </p>
+  <p>
+    This project is fully open-source using Github pages as a host.
+  </p>
+
+  <h4 class="mt-5">Todo (March 21, 2020):</h4>
+  <ul>
+    <li>Add sorting on the searchable sections.</li>
+    <li>Update to a multi-page layout so it's easier to use on mobile.</li>
+    <li>Buy a proper domain so the site is easily remembered.</li>
+  </ul>
+
+  <h4 class="mt-5">Want to contribute?</h4>
+  <p>
+    This project is made with Angular 8.3 (Not moving to ivy yet).
+    The repository can be found <a href="https://github.com/judedaryl/ncov-tracker/">here</a>
+    I am using the same data resources as DOH. You can find some examples in the apiService, but if you need more
+    data
+    that reflects the ncov tracker in DOH you can simply
+    reverse engineer the app by sniffing the network.
+  </p>
+  <a class="btn btn-primary" target="_blank" href="https://github.com/judedaryl/ncov-tracker/">
+    <i class="fab fa-github"></i> Contribute
+  </a>
+</div>
 
 <div class="my-5">
   <div class="border-top container-fluid p-3 bg-white d-flex flex-column">

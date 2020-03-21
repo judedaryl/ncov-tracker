@@ -72,7 +72,7 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/confirmed/FeatureServer/0/
 &returnGeometry=false
 &spatialRel=esriSpatialRelIntersects
 &outFields=*
-&orderByFields=date asc
+&orderByFields=date desc
 &resultOffset=0
 &resultRecordCount=1000
 &cacheHint=true

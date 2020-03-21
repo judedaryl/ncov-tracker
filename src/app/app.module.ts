@@ -10,6 +10,10 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { AgeChartComponent } from './components/age-chart/age-chart.component';
 import { ResidenceChartComponent } from './components/residence-chart/residence-chart.component';
 import { NationalityChartComponent } from './components/nationality-chart/nationality-chart.component';
+import { TwitterFeedComponent } from './components/social/twitter-feed/twitter-feed.component';
+import { FacebookFeedComponent } from './components/social/facebook-feed/facebook-feed.component';
+import { FacebookShareComponent } from './components/social/facebook-share/facebook-share.component';
+import { TwitterTweetComponent } from './components/social/twitter-tweet/twitter-tweet.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,11 @@ import { NationalityChartComponent } from './components/nationality-chart/nation
     CaseChartComponent,
     AgeChartComponent,
     ResidenceChartComponent,
-    NationalityChartComponent
+    NationalityChartComponent,
+    TwitterFeedComponent,
+    FacebookFeedComponent,
+    FacebookShareComponent,
+    TwitterTweetComponent
   ],
   imports: [
     BrowserModule,
