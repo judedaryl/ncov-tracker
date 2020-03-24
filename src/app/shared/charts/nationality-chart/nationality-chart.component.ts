@@ -71,15 +71,7 @@ export class NationalityChartComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  buildSerxies(statistics: Aggregate<PHCase>[]): Highcharts.SeriesOptionsType[] {
-    return statistics.map(({ nationalit, value }) => ({
-      name: nationalit,
-      type: 'column',
-      data: [value]
-    }))
-  }
-
+  
   buildSeries(statistics: Aggregate<PHCase>[]): Highcharts.SeriesOptionsType[] {
     let series: Highcharts.SeriesOptionsType[] = [{
       name: 'Case by residence',
