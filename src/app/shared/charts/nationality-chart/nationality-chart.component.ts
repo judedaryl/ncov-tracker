@@ -22,14 +22,14 @@ export class NationalityChartComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts; // required
   chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
   chartOptions: Highcharts.Options = {
+    chart: {
+      type: 'pie'
+    },
     title: {
       text: '',
     },
     xAxis: {
-      type: 'category',
-      labels: {
-        enabled: false
-      }
+      type: 'category'
     },
     yAxis: {
       labels: {
@@ -44,6 +44,22 @@ export class NationalityChartComponent implements OnInit {
       enabled: true,
       text: 'Department of Health',
       href: 'https://ncovtracker.doh.gov.ph/'
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: false
+        },
+        showInLegend: true
+      }
+    },
+    tooltip: {
+      pointFormatter: function() {
+       
+        return `${this.x}`
+      }
     }
   };
   updateFlag: boolean = false; // optional boolean
@@ -56,11 +72,26 @@ export class NationalityChartComponent implements OnInit {
   ngOnInit() {
   }
 
-  buildSeries(statistics: Aggregate<PHCase>[]): Highcharts.SeriesOptionsType[] {
+  buildSerxies(statistics: Aggregate<PHCase>[]): Highcharts.SeriesOptionsType[] {
     return statistics.map(({ nationalit, value }) => ({
       name: nationalit,
       type: 'column',
       data: [value]
     }))
+  }
+
+  buildSeries(statistics: Aggregate<PHCase>[]): Highcharts.SeriesOptionsType[] {
+    let series: Highcharts.SeriesOptionsType[] = [{
+      name: 'Case by residence',
+      type: 'pie',
+      colorByPoint: true,
+      data: statistics.map(({ nationalit, value }) => ({
+        name: nationalit,
+        y: Math.log(value) / Math.LN10,
+        x: value
+      })),
+
+    }]
+    return series;
   }
 }
