@@ -1,0 +1,53 @@
+<ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let item of data">
+      <div>
+        <h5> {{ item.region }}</h5>
+        <div class="row mt-lg-3">
+          <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+              <span class="font-weight-regular">N95</span>
+              <small class="text-muted">Respirator</small>
+              <h4>{{ item.n95 }}</h4>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+              <span class="font-weight-regular">Surgical mask</span>
+              <small class="text-muted">Face mask</small>
+              <h4>{{ item.surgmask }}</h4>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+              <span class="font-weight-regular">PPE</span>
+              <small class="text-muted">Personal protective equipment</small>
+              <h4>{{ item.ppe }}</h4>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+              <span class="font-weight-regular">Osetamivir</span>
+              <small class="text-muted">Antiviral medication</small>
+              <h4>{{ item.osetamivir }}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-lg-2">
+          <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+              <span class="font-weight-regular">Sanitizer</span>
+              <small class="text-muted">Disinfectant</small>
+              <h4>{{ item.sanitizer }}</h4>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+              <span class="font-weight-regular">Gloves</span>
+              <small class="text-muted">Hand gloves</small>
+              <h4>{{ item.gloves }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>

@@ -31,7 +31,7 @@ f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&maxAl
 
 ###
 
-# @name groupedByGender
+# @name groupedByNationality
 GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query
 ?f=json
 &where=1%3D1
@@ -46,6 +46,22 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServe
 &outStatistics=[{"statisticType":"count","onStatisticField":"FID","outStatisticFieldName":"value"}]
 ###
 
+
+
+# @name groupedByFacility
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&resultOffset=0
+&resultRecordCount=1000
+&cacheHint=true
+&orderByFields=value desc
+&groupByFieldsForStatistics=facility 
+&outStatistics=[{"statisticType":"count","onStatisticField":"FID","outStatisticFieldName":"value"}]
+###
 
 ###
 
@@ -62,6 +78,22 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/
 &cacheHint=true
 &groupByFieldsForStatistics=age_categ,sex
 &outStatistics=[{"statisticType":"count","onStatisticField":"FID","outStatisticFieldName":"value"}]
+###
+
+
+# @name allAgeGroup
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/age_group/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&resultOffset=
+&resultRecordCount=
+&cacheHint=true
+&groupByFieldsForStatistics=
+&outStatistics=
 ###
 
 
@@ -103,13 +135,28 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/commodities/FeatureServer/
 &returnGeometry=false
 &spatialRel=esriSpatialRelIntersects
 &outFields=*
-&orderByFields=
+&orderByFields=regnum asc
 &cacheHint=true
 &outStatistics=
 ###
 
 
 # @name PUIRegion
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PUI_fac_tracing/FeatureServer/0/query
+?f=json
+&where=region='NCR'
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&cacheHint=true
+&groupByFieldsForStatistics=hf
+&outStatistics=
+###
+
+
+# @name PUIRegionStats
 
 GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PUI_fac_tracing/FeatureServer/0/query
 ?f=json
@@ -122,3 +169,92 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PUI_fac_tracing/FeatureSer
 &groupByFieldsForStatistics=hf
 &outStatistics=[{"statisticType":"sum","onStatisticField":"PUIs","outStatisticFieldName":"value"}]
 ###
+
+
+# @name PHMasterlist
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query
+?f=json
+&where=1=1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&cacheHint=true
+&groupByFieldsForStatistics=
+&outStatistics=
+###
+
+
+# @name hosplevel32018
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/hosplevel32018/FeatureServer/0/query
+?f=json
+&where=1=1
+&returnGeometry=true
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&cacheHint=true
+&groupByFieldsForStatistics=
+&outStatistics=
+###
+
+
+
+# @name PHMasterlist
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query
+?f=json
+&where=1=1
+&returnGeometry=true
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&cacheHint=true
+&groupByFieldsForStatistics=
+&outStatistics=
+###
+
+
+# @name slide_fig
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/slide_fig/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&cacheHint=true
+&groupByFieldsForStatistics=
+&outStatistics=
+###
+
+
+# @name ncob
+
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/ncob/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&cacheHint=true
+&groupByFieldsForStatistics=
+&outStatistics=
+###
+
+# @name minnesota
+
+GET https://services.arcgis.com/pEosvuftL1Kgj1UF/arcgis/rest/services/Cases_current/FeatureServer/0/query
+?f=json
+&where=1%3D1
+&returnGeometry=false
+&spatialRel=esriSpatialRelIntersects
+&outFields=*
+&orderByFields=
+&cacheHint=true
+&groupByFieldsForStatistics=
+&outStatistics=

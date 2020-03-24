@@ -6,6 +6,7 @@
   <title>COVID Tracker Philippines</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Track the spread of COVID-19 in the Philippines. Uses the same data as DOH">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161425011-1"></script>
@@ -16,13 +17,20 @@
 
     gtag('config', 'UA-161425011-1');
   </script>
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script
+    src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css">
+  <!-- <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script async data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="exkpSj2"
+    data-description="Support me on Buy me a coffee!"
+    data-message="If this helped you, consider buying me a coffee!" data-color="#FF813F" data-position="right"
+    data-x_margin="18" data-y_margin="18"></script> -->
 </head>
 
-<body>
-  <div id="fb-root"></div>
+<body class="bg-light">
+  <!-- <div id="fb-root"></div>
   <script async defer crossorigin="anonymous"
-    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=146468626659784&autoLogAppEvents=1"></script>
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=146468626659784&autoLogAppEvents=1"></script> -->
   <app-root></app-root>
 </body>
 

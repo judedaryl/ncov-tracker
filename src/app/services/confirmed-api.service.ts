@@ -1,31 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { CaseStatistic } from '../interfaces/case-statistic';
-import { getConfirmedStatistic } from '../mappers/arcgis-statistic.mapper';
-import { map } from 'rxjs/operators';
+import { ArcgisService } from './arcgis.service';
+import { Confirmed } from '../arcgis/confirmed';
+import { QueryBuilder } from '../arcgis/query-params';
+import { FeatureServers } from '../constants/arcgis-ph.features';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfirmedApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private arcgis: ArcgisService) { }
 
-  getConfirmedStatistics(): Observable<CaseStatistic[]> {
-    var params = {
-      f: 'json',
-      where: '1=1',
-      returnGeometry: 'false',
-      spatialRel: 'esriSpatialRelIntersects',
-      outFields: '*',
-      orderByFields: 'date asc',
-      cacheHint: 'true',
-      groupByFieldsForStatistics: 'date'
-    }
+  getConfirmedStatistics(): Observable<Confirmed[]> {
 
-    return this.http.get(`https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/confirmed/FeatureServer/0/query`, {
-      params: params
-    }).pipe(map(getConfirmedStatistic));
+    const queryParams = new QueryBuilder<Confirmed>()
+      .setOrder('date', 'asc')
+      .setGrouping('date')
+      .build();
+
+    return this.arcgis.queryArcgis<Confirmed>(FeatureServers.confirmed, queryParams);
   }
 }

@@ -1,0 +1,10 @@
+<ul class="list-group list-group-flush">
+    <li class="list-group-item app-list-item" *ngFor="let item of data" (click)="select.next(item.region)">
+        <div class="d-flex flex-row justify-content-between">
+            {{ item.region }}
+            <div>
+                <span class="badge badge-dark">{{ item.value }}</span>
+            </div>
+        </div>
+    </li>
+</ul>

@@ -1,0 +1,14 @@
+<div class="d-flex h-100 flex-column bg-white">
+    <app-mobile-header backLink="/pui/region">
+        <h6 class="m-0" *ngIf="header$ | async as header">
+            {{ header  }}
+        </h6>
+    </app-mobile-header>
+
+    <div #mapContainer style="height: 250px; width: 100%"></div>
+    
+    <div class="flex-fill overflow-auto">
+        <app-pui-list [data]="puis$ | async" (select)="puiSelected$.next($event)"></app-pui-list>
+    </div>
+    <app-map [target]="mapContainer"></app-map>
+</div>

@@ -1,3 +1,19 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$theme-colors: (
+  "primary":    #003C71,
+  "secondary":  #0066F5,
+  "success":    #009104,
+  "info":       #007AFF,
+  "warning":    #FCAE00,
+  "danger":     #dc3545,
+  "light":      $gray-100,
+  "dark":       #222222
+);
+
+
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import 'bootstrap/scss/bootstrap';
 @import "@fortawesome/fontawesome-free/scss/fontawesome.scss";

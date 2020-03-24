@@ -1,0 +1,12 @@
+<div class="list-container">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let item of data">
+            <div class="d-flex flex-row justify-content-between">
+                {{ item.facility }}
+                <div>
+                    <span class="badge badge-dark">{{ item.PH_masterl }}</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

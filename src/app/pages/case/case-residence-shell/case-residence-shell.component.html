@@ -1,0 +1,71 @@
+<div *ngIf="isMobile$ | async; else desktop" class="d-flex flex-column h-100">
+    <app-mobile-search (search)="filter.setValue($event)" placeholder="Search by residence"></app-mobile-search>
+    <div class="flex-fill overflow-auto bg-white">
+        <div class="container-fluid">
+            <h6 class="mt-3">Cases by residence</h6>
+        </div>
+        <div class="mt-3" *ngIf="data$ | async as data">
+            <app-case-residence-list [data]="data" (select)="view($event)">
+            </app-case-residence-list>
+        </div>
+    </div>
+</div>
+
+<ng-template #desktop>
+    <div class="d-flex flex-column h-100">
+
+        <div class="container-fluid mt-md-4 d-flex align-items-center justify-content-start">
+            <a routerLink="/">
+                <i class="fas fa-arrow-left text-secondary mr-3"></i>
+            </a>
+            <h5 class="m-0">Cases by residence</h5>
+        </div>
+    
+        <div class="container-fluid mt-3 flex-fill overflow-hidden">
+            <div class="row h-100 pb-3">
+                <div class="col-lg-6 h-100 overflow-hidden d-flex flex-column">
+                    <div>
+                        <small class="text-muted">Search by residence</small>
+                        <form>
+                            <div class="input-group mt-2 mb-3 position-sticky" style="top: 0; z-index: 5">
+                                <input type="text" class="form-control" placeholder="e.g. Manila" aria-label="Facility Name"
+                                    aria-describedby="Facility Name" [formControl]="filter">
+                                <div class="input-group-append" *ngIf="filter.value !== ''">
+                                    <button class="btn btn-outline-dark" type="button" (click)="filter.reset('')">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="overflow-auto rounded border flex-fill">
+                        <app-case-residence-list [data]="data$ | async" (select)="caseSearch$.next($event)">
+                        </app-case-residence-list>
+                    </div>
+                </div>
+                <div class="col-lg h-100 overflow-hidden d-flex flex-column">
+                    <div #mapContainer style="height: 400px; width: 100%"></div>
+                    <div class="
+                        align-items-center 
+                        bg-white 
+                        border d-flex my-2 px-3 
+                        rounded 
+                        text-primary 
+                        facility-name-container" style="min-height: 70px">
+                        <span *ngIf="selected$ | async as selected">
+                            {{ selected }}
+                        </span>
+                    </div>
+    
+                    <div class="overflow-auto flex-fill">
+                        <app-case-list [data]="cases$ | async"
+                        [clickable]="true"
+                        (select)="caseSelected$.next($event)"
+                        ></app-case-list>
+                    </div>
+                    <app-map [target]="mapContainer"></app-map>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,7 @@
+@import "bootstrap";
+.app-list-item {
+    cursor: pointer;
+    &:hover {
+        @extend .bg-light
+    }
+}

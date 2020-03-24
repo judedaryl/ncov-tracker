@@ -1,0 +1,116 @@
+<div class="container-fluid mt-3 mt-md-4" *ngIf="showAlert">
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+    <strong>Note: </strong>This uses the same data source as the <a href="https://ncovtracker.doh.gov.ph/"
+      target="_blank">DOH's ncov tracker</a>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid mt-3 mt-md-4" *ngIf="statisticsData$ | async as stat else loading">
+  <div class="row">
+    <div class="col-lg mb-2 mb-lg-0 ">
+      <app-stat-card [value]="stat.confirmed" title="Confirmed Cases" textColor="dark" bgColor="white"
+        information="as of {{today | date : 'MMM dd, yyyy'}}" [headerIcon]="'fa-user'"></app-stat-card>
+    </div>
+    <div class="col-lg mb-2 mb-lg-0 ">
+      <app-stat-card [value]="stat.deaths" textColor="white" bgColor="danger" title="Deaths"
+        information="{{ (stat.deaths / stat.confirmed) | percent: '1.2-2' }} fatality rate" [headerIcon]="'fa-skull'">
+      </app-stat-card>
+    </div>
+    <div class="col-lg mb-2 mb-lg-0">
+      <app-stat-card [value]="stat.recovered" textColor="white" bgColor="success" title="Recovered"
+        information="{{ (stat.recovered / stat.confirmed) | percent: '1.2-2' }} recovery rate"
+        [headerIcon]="'fa-user-check'">
+      </app-stat-card>
+    </div>
+    <div class="col-lg mb-2 mb-lg-0">
+      <app-stat-card [value]="stat.PUMs" textColor="white" bgColor="primary" [title]="'PUMs'"
+        [information]="'Persons monitored'" [headerIcon]="'fa-hospital'"></app-stat-card>
+    </div>
+    <div class="col-lg mb-2 mb-lg-0">
+      <app-stat-card [value]="stat.PUIs" textColor="white" bgColor="secondary" [title]="'PUIs'"
+        [information]="'Persons under investigation'" [headerIcon]="'fa-search'"></app-stat-card>
+    </div>
+    <div class="col-lg mb-2 mb-lg-0">
+      <app-stat-card [value]="stat.tests" textColor="white" bgColor="dark" [title]="'Tests'"
+        [information]="'Tests conducted'" [headerIcon]="'fa-vial'"></app-stat-card>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt-3 mt-md-4">
+  <div class="row">
+    <div class="col-lg mb-3 mb-md-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Case trends</h5>
+        </div>
+        <div class="p-3">
+          <app-case-chart [caseStatistics]="caseStatistics$ | async"></app-case-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg mb-3 mb-md-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Age and gender distribution</h5>
+        </div>
+        <div class="p-3">
+          <app-age-chart [statistics]="ageGroupStatistics$ | async"></app-age-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Nationality distribution</h5>
+        </div>
+        <div class="p-3">
+          <app-nationality-chart [statistics]="nationalityStatistics$ | async"></app-nationality-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt-4 mt-md-5">
+  <h5 class="text-muted">Drilldown</h5>
+  <small></small>
+  <div class="row mt-3">
+    <div class="col-lg-2 mb-3 mb-md-0">
+      <app-shortcut-card routerLink="/case/facility" title="Cases by facility"
+        description="Explore facilities with confirmed cases with a map and case data">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3 mb-md-0">
+      <app-shortcut-card routerLink="/case/residence" title="Cases by residence"
+        description="Discover residences with confirmed cases with a map and case data">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3 mb-md-0">
+      <app-shortcut-card routerLink="/pui/facility" title="PUIs by facility"
+        description="View facilities with persons under investigation with a map">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3 mb-md-0">
+      <app-shortcut-card routerLink="/pui/region" title="PUIs by region"
+        description="Get to know the regions with persons under investigation with a map">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3 mb-md-0">
+      <app-shortcut-card routerLink="/inventory/region" title="Medical supply by region"
+        description="View a detailed report of the medical supply inventory per region">
+      </app-shortcut-card>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+
+<ng-template #loading>
+  <div class="container-fluid p-5">
+    <span class="text-muted">Loading data...</span>
+  </div>
+</ng-template>

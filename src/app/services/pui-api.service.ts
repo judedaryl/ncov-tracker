@@ -1,56 +1,55 @@
-
 import { Injectable } from '@angular/core';
-import { InventoryStatistic } from '../interfaces/inventory-statistic';
+import { ArcgisService } from './arcgis.service';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { getInventoryStatistic } from '../mappers/arcgis-statistic.mapper';
-import { map } from 'rxjs/operators';
-import { PuiTracingResponse, ArcgisResponse, PuiRegionResponse, PuiHospitalFacilityResponse } from '../interfaces/arcgis';
-import { AggregatedStatistic } from '../interfaces/aggregated-statistic';
+import { Aggregate } from '../arcgis/aggregate';
+import { PuiTracing } from '../arcgis/pui-tracing';
+import { QueryBuilder } from '../arcgis/query-params';
+import { FeatureServers } from '../constants/arcgis-ph.features';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PuiApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private arcgis: ArcgisService) { }
 
 
-  getPuiRegionStatistic(): Observable<AggregatedStatistic[]> {
-    return this.getPuiTraceStatistic<PuiRegionResponse>('region').pipe(
-      map(q => q.map(({ value, region }) => ({
-        aggregateKey: region,
-        value
-      })))
-    )
+  getPuiRegionStatistic(): Observable<Aggregate<PuiTracing>[]> {
+
+    const queryParams = new QueryBuilder<PuiTracing>()
+      .setGrouping('region')
+      .setStatistic('sum', 'PUIs')
+      .setOrder('value', 'desc')
+      .build();
+
+    return this.arcgis.queryArcgis<Aggregate<PuiTracing>>(
+      FeatureServers.puiFacilityTracking,
+      queryParams
+    );
   }
 
-  getPuiHospitalFacilityStatistic(): Observable<AggregatedStatistic[]> {
-    return this.getPuiTraceStatistic<PuiHospitalFacilityResponse>('hf').pipe(
-      map(q => q.map(({ value, hf }) => ({
-        aggregateKey: hf,
-        value
-      })))
-    )
+  getPuiHospitalFacilityStatistic(): Observable<Aggregate<PuiTracing>[]> {
+
+    const queryParams = new QueryBuilder<PuiTracing>()
+      .setGrouping('hf')
+      .setStatistic('sum', 'PUIs')
+      .setOrder('value', 'desc')
+      .build();
+
+    return this.arcgis.queryArcgis<Aggregate<PuiTracing>>(
+      FeatureServers.puiFacilityTracking,
+      queryParams
+    );
   }
 
-  getPuiTraceStatistic<TResponse>(groupBy: string): Observable<TResponse[]> {
-    var params = {
-      f: 'json',
-      where: '1=1',
-      returnGeometry: 'false',
-      spatialRel: 'esriSpatialRelIntersects',
-      outFields: '*',
-      orderByFields: 'value desc',
-      cacheHint: 'true',
-      groupByFieldsForStatistics: groupBy,
-      outStatistics: '[{"statisticType":"sum","onStatisticField":"PUIs","outStatisticFieldName":"value"}]'
-    }
-
-    return this.http.get<ArcgisResponse<TResponse>>(`https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PUI_fac_tracing/FeatureServer/0/query`, {
-      params: params
-    }).pipe(map(q =>
-      q.features
-        .map(q => q.attributes)));
+  search(field: keyof PuiTracing, search: string): Observable<PuiTracing[]> {
+    const queryParams = new QueryBuilder<PuiTracing>()
+    .setOrder(field, 'desc')
+    .setQuery(`${field}='${search}'`)
+    .build();
+    return this.arcgis.queryArcgis<PuiTracing>(
+      FeatureServers.puiFacilityTracking,
+      queryParams
+    )
   }
 }

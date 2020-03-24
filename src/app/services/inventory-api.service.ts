@@ -1,31 +1,33 @@
 import { Injectable } from '@angular/core';
-import { InventoryStatistic } from '../interfaces/inventory-statistic';
+import { ArcgisService } from './arcgis.service';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { getInventoryStatistic } from '../mappers/arcgis-statistic.mapper';
-import { map } from 'rxjs/operators';
+import { Inventory } from '../arcgis/inventory';
+import { QueryBuilder } from '../arcgis/query-params';
+import { FeatureServers } from '../constants/arcgis-ph.features';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private arcgis: ArcgisService) { }
 
-  getInventoryStatistics(): Observable<InventoryStatistic[]> {
-    var params = {
-      f: 'json',
-      where: '1=1',
-      returnGeometry: 'false',
-      spatialRel: 'esriSpatialRelIntersects',
-      outFields: '*',
-      orderByFields: 'regnum asc',
-      cacheHint: 'true',
-      groupByFieldsForStatistics: ''
-    }
+  getInventoryStatistics(): Observable<Inventory[]> {
+    const queryParams = new QueryBuilder<Inventory>()
+      .setOrder('regnum', 'asc')
+      .build();
 
-    return this.http.get(`https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/commodities/FeatureServer/0/query`, {
-      params: params
-    }).pipe(map(getInventoryStatistic));
+    return this.arcgis.queryArcgis<Inventory>(FeatureServers.commodities, queryParams);
+  }
+
+  search(field: keyof Inventory, search: string): Observable<Inventory[]> {
+    const queryParams = new QueryBuilder<Inventory>()
+    .setOrder(field, 'desc')
+    .setQuery(`${field}='${search}'`)
+    .build();
+    return this.arcgis.queryArcgis<Inventory>(
+      FeatureServers.puiFacilityTracking,
+      queryParams
+    )
   }
 }
