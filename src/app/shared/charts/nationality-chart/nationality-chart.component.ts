@@ -79,7 +79,7 @@ export class NationalityChartComponent implements OnInit {
       colorByPoint: true,
       data: statistics.map(({ nationalit, value }) => ({
         name: nationalit,
-        y: Math.log(value) / Math.LN10,
+        y: Math.log1p(value) / Math.LN10,
         x: value
       })),
 
