@@ -13,9 +13,21 @@ export class PhMasterlistApiService {
 
   constructor(private arcgis: ArcgisService) { }
 
+  getAllCases(): Observable<PHCase[]> {
+    const queryParams = new QueryBuilder<PHCase>()
+      .setOrder('FID', 'desc')
+      .build();
+
+    return this.arcgis.queryArcgis<PHCase>(
+      FeatureServers.philippinesMaster,
+      queryParams
+    );
+  }
+
   getFacilityStatistics(): Observable<Aggregate<PHCase>[]> {
     const queryParams = new QueryBuilder<PHCase>()
       .setOrder('value', 'desc')
+      .setOrder('facility', 'asc')
       .setGrouping('facility')
       .setStatistic('count', 'FID')
       .build();
@@ -29,6 +41,7 @@ export class PhMasterlistApiService {
   getResidenceStatistics(): Observable<Aggregate<PHCase>[]> {
     const queryParams = new QueryBuilder<PHCase>()
       .setOrder('value', 'desc')
+      .setOrder('residence', 'asc')
       .setGrouping('residence')
       .setStatistic('count', 'FID')
       .build();
@@ -42,6 +55,7 @@ export class PhMasterlistApiService {
   getNationalityStatistic(): Observable<Aggregate<PHCase>[]> {
     const queryParams = new QueryBuilder<PHCase>()
       .setOrder('value', 'desc')
+      .setOrder('nationalit', 'asc')
       .setGrouping('nationalit')
       .setStatistic('count', 'FID')
       .build();
@@ -54,9 +68,9 @@ export class PhMasterlistApiService {
 
   searchMasterlist(field: keyof PHCase, search: string): Observable<PHCase[]> {
     const queryParams = new QueryBuilder<PHCase>()
-    .setOrder('FID', 'desc')
-    .setQuery(`${field}='${search}'`)
-    .build();
+      .setOrder('FID', 'desc')
+      .setQuery(`${field}='${search}'`)
+      .build();
     return this.arcgis.queryArcgis<PHCase>(
       FeatureServers.philippinesMaster,
       queryParams

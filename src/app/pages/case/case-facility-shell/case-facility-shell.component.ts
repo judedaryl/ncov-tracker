@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { startWith, map, mergeMap, take } from 'rxjs/operators';
+import { startWith, map, mergeMap, take, debounce, debounceTime } from 'rxjs/operators';
 import { Aggregate } from 'src/app/arcgis/aggregate';
 import { PHCase } from 'src/app/arcgis/ph-masterlist';
 import { Observable, combineLatest, BehaviorSubject, Subject, merge, Subscription } from 'rxjs';
@@ -45,6 +45,7 @@ export class CaseFacilityShellComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.facilityData$ = combineLatest(this.phMaster.getFacilityStatistics(), this.filter$).pipe(
+      debounceTime(300),
       map(([facilities, filterString]) => facilities.filter(({ facility }) =>
         facility.toLowerCase().indexOf(filterString.toLowerCase()) !== -1))
     )
