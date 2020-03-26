@@ -54,6 +54,8 @@ export class AppComponent implements OnInit {
     this.showAlert = localStorage.getItem('show-alert') !== 'false';
   }
 
+
+ 
   closeAlert() {
     this.showAlert = false;
     localStorage.setItem('show-alert', 'false')
@@ -116,7 +118,5 @@ export class AppComponent implements OnInit {
     // this.nationalityData$ = this.apiService.getNationalityStatistic();
 
   }
-
-
 
 }
