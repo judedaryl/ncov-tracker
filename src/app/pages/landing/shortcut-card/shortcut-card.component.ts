@@ -9,6 +9,7 @@ export class ShortcutCardComponent implements OnInit {
 
   @Input() title: string;
   @Input() description: string;
+  @Input() disabled: boolean;
   
   constructor() { }
 
