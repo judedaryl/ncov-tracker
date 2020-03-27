@@ -55,8 +55,8 @@
                         </span>
                     </div>
 
-                    <div class="overflow-auto ios-scroll flex-fill">
-                        <div *ngIf="cases$ | async as data; else loading">
+                    <div class="overflow-auto ios-scroll flex-fill d-flex flex-column">
+                        <div *ngIf="cases$ | async as data; else loading" class="flex-fill">
                             <app-case-list [data]="data"></app-case-list>
                         </div>
                     </div>

@@ -17,4 +17,5 @@ export interface PHCase extends BaseObject{
     status: string;
     epi_link: string;
     petsa: string;
+    sequ: number;
 }

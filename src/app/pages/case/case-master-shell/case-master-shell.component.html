@@ -1,39 +1,61 @@
-<div class="d-flex flex-column h-100">
-
-    <div class="container-fluid mt-md-4 d-flex align-items-center justify-content-start">
-        <a routerLink="/">
-            <i class="fas fa-arrow-left text-secondary mr-3"></i>
-        </a>
-        <h5 class="m-0">Cases by residence</h5>
-    </div>
-
-    <div class="container-fluid mt-3 flex-fill overflow-hidden">
-        <div class="row h-100 pb-3">
-            <div class="col-lg-6 h-100 overflow-hidden d-flex flex-column">
-                <div>
-                    <small class="text-muted">Search case by name, facility or region</small>
-                    <form>
-                        <div class="input-group mt-2 mb-3 position-sticky" style="top: 0; z-index: 5">
-                            <input type="text" class="form-control" placeholder="e.g. Hospital"
-                                aria-label="Facility Name" aria-describedby="Facility Name" [formControl]="filter">
-                            <div class="input-group-append" *ngIf="filter.value !== ''">
-                                <button class="btn btn-outline-dark" type="button" (click)="filter.reset('')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="overflow-auto ios-scroll rounded border flex-fill">
-                    <app-case-list [data]="cases$ | async" (select)="selectedCase$.next($event)"
-                        [cardClickable]="true"
-                    ></app-case-list>
-                </div>
+<ng-container *ngIf="cases$ | async as cases; else loading">
+    <div *ngIf="isMobile$ | async; else desktop" class="d-flex flex-column h-100">
+        <div class="d-flex h-100 flex-column">
+            <app-mobile-search (search)="filter.setValue($event)" placeholder="Search cases"></app-mobile-search>
+            <div #mapContainer style="height: 200px; min-height:200px; width: 100%"></div>
+            <div class="flex-fill overflow-auto ios-scroll" *ngIf="cases$ | async as cases">
+                <app-case-list [data]="cases"></app-case-list>
             </div>
-            <div class="col-lg h-100 overflow-hidden d-flex flex-column">
-                <div #mapContainer class="flex-fill" style="width: 100%"></div>
-                <app-map [target]="mapContainer"></app-map>
-            </div>
+            <app-map #mobileMapContainer [target]="mapContainer"></app-map>
         </div>
     </div>
-</div>
+
+    <ng-template #desktop>
+        <div class="d-flex flex-column h-100">
+            <div class="container-fluid mt-md-4 d-flex align-items-baseline justify-content-start">
+                <a routerLink="/">
+                    <i class="fas fa-arrow-left text-secondary mr-3"></i>
+                </a>
+                <h5 class="m-0">PH cases masterlist</h5>
+                <i class="fas fa-download text-secondary ml-3 cursor-pointer" title="Download as CSV"
+                    *ngIf="cases$ | async as cases" (click)="save(cases)"></i>
+            </div>
+            <div class="container-fluid mt-3 flex-fill overflow-hidden">
+                <div class="row h-100 pb-3">
+                    <div class="col-lg-6 h-100 overflow-hidden d-flex flex-column">
+                        <div>
+                            <small class="text-muted">Search case by name, facility or region</small>
+                            <form>
+                                <div class="input-group mt-2 mb-3 position-sticky" style="top: 0; z-index: 5">
+                                    <input type="text" class="form-control" placeholder="e.g. Hospital"
+                                        aria-label="Facility Name" aria-describedby="Facility Name"
+                                        [formControl]="filter">
+                                    <div class="input-group-append" *ngIf="filter.value !== ''">
+                                        <button class="btn btn-outline-dark" type="button" (click)="filter.reset('')">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="overflow-auto ios-scroll rounded border flex-fill">
+                            <app-case-list [data]="cases" (select)="selectedCase$.next($event)" [cardClickable]="true">
+                            </app-case-list>
+                        </div>
+                    </div>
+                    <div class="col-lg h-100 overflow-hidden d-flex flex-column">
+                        <div #desktopMap class="flex-fill" style="width: 100%"></div>
+                        <app-map #desktopMapContainer [target]="desktopMap"></app-map>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</ng-container>
+
+
+<ng-template #loading>
+    <div class="container-fluid mt-3">
+        Loading...
+    </div>
+</ng-template>

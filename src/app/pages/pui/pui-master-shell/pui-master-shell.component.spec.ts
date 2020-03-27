@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CaseMasterMobileComponent } from './case-master-mobile.component';
+import { PuiMasterShellComponent } from './pui-master-shell.component';
 
-describe('CaseMasterMobileComponent', () => {
-  let component: CaseMasterMobileComponent;
-  let fixture: ComponentFixture<CaseMasterMobileComponent>;
+describe('PuiMasterShellComponent', () => {
+  let component: PuiMasterShellComponent;
+  let fixture: ComponentFixture<PuiMasterShellComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CaseMasterMobileComponent ]
+      declarations: [ PuiMasterShellComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CaseMasterMobileComponent);
+    fixture = TestBed.createComponent(PuiMasterShellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

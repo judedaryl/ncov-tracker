@@ -12,21 +12,22 @@ export class CaseListComponent implements OnInit {
   @Input() data: PHCase[];
   @Input() clickable: boolean = false;
   @Input() cardClickable: boolean = false;
-  @Output() select = new EventEmitter<PHCase>()
-  constructor() { }
+  @Output() select = new EventEmitter<PHCase>();
 
+
+  constructor() { }
 
   ngOnInit() {
   }
 
   onSelect(phcase: PHCase) {
-    if(this.cardClickable) {
+    if (this.cardClickable) {
       this.select.emit(phcase);
     }
   }
 
-  trackByFunction(index: number, phCase: PHCase) {
-    return phCase.FID;
+  trackByFunction(index: number) {
+    return index;
   }
 
 }

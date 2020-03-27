@@ -1,12 +1,52 @@
-<div class="list-container">
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item" *ngFor="let item of data">
-            <div class="d-flex flex-row justify-content-between">
-                {{ item.facility }}
-                <div>
-                    <span class="badge badge-dark">{{ item.PH_masterl }}</span>
-                </div>
+<div (click)="onSelect(item)" [class.cursor-pointer]="cardClickable">
+    <div class="mb-3 d-flex justify-content-between">
+        <h5 class="m-0"> {{ item.PH_masterl }} </h5>
+        <i class="fas fa-map text-secondary p-1 cursor-pointer" (click)="select.next(item)" *ngIf="clickable"></i>
+    </div>
+    <div class="row mt-lg-3">
+        <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+                <small class="text-muted font-weight-regular">Gender</small>
+                <span class="font-weight-regular">{{ item.kasarian }}</span>
             </div>
-        </li>
-    </ul>
+        </div>
+        <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+                <small class="text-muted font-weight-regular">Age</small>
+                <span class="font-weight-regular">{{ item.edad }}</span>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+                <small class="text-muted font-weight-regular">Travel History</small>
+                <span class="font-weight-regular">{{ item.travel_hx }}</span>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+                <small class="text-muted font-weight-regular">Symptoms</small>
+                <span class="font-weight-regular">{{ item.symptoms }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-lg-2">
+        <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+                <small class="text-muted font-weight-regular">Nationality</small>
+                <span class="font-weight-regular">{{ item.nationalit }}</span>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+                <small class="text-muted font-weight-regular">Residence</small>
+                <span class="font-weight-regular">{{ item.residence }}</span>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-md-0 mt-2">
+            <div class="d-flex flex-column">
+                <small class="text-muted font-weight-regular">Facility</small>
+                <span class="font-weight-regular">{{ item.facility }}</span>
+            </div>
+        </div>
+    </div>
 </div>

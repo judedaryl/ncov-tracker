@@ -15,10 +15,11 @@ import { PuiFacilityMobileComponent } from './pui-facility-mobile/pui-facility-m
 import { PuiRegionMobileComponent } from './pui-region-mobile/pui-region-mobile.component';
 import { LayoutModule, BreakpointObserver, MediaMatcher } from '@angular/cdk/layout';
 import { Platform } from '@angular/cdk/platform';
+import { PuiMasterShellComponent } from './pui-master-shell/pui-master-shell.component';
 
 
 @NgModule({
-  declarations: [PuiFacilityShellComponent, PuiFacilityListComponent, PuiRegionShellComponent, PuiRegionListComponent, PuiListComponent, PuiDetailComponent, PuiFacilityMobileComponent, PuiRegionMobileComponent],
+  declarations: [PuiFacilityShellComponent, PuiFacilityListComponent, PuiRegionShellComponent, PuiRegionListComponent, PuiListComponent, PuiDetailComponent, PuiFacilityMobileComponent, PuiRegionMobileComponent, PuiMasterShellComponent],
   imports: [
     CommonModule,
     PuiRoutingModule,    

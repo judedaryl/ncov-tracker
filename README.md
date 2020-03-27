@@ -17,6 +17,12 @@ If you are from the **United States**, my colleague [@vdurano](https://github.co
 - Distribution - **Azure CDN**
 - Data source - All data comes from [ERIS Arcgis](https://www.esri.com/en-us/home).
 
+## Dependencies
+- [ngx-virtual-scroller](https://www.npmjs.com/package/ngx-virtual-scroller)
+- Charting [highcharts-angular](https://www.npmjs.com/package/highcharts-angular)
+- Styling [bootstrap](https://getbootstrap.com)
+- Maps - [openlayers](https://www.npmjs.com/package/ol)
+- Save files (desktop only) - [file-saver](https://www.npmjs.com/package/file-saver)
 
 ## Support
 

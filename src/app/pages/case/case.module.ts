@@ -16,9 +16,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { CaseFacilityMobileComponent } from './case-facility-mobile/case-facility-mobile.component';
 import { CaseResidenceMobileComponent } from './case-residence-mobile/case-residence-mobile.component';
 import { CaseMasterShellComponent } from './case-master-shell/case-master-shell.component';
-import { CaseMasterMobileComponent } from './case-master-mobile/case-master-mobile.component';
-import { ScrollingModule } from '@angular/cdk/scrolling'
-
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 @NgModule({
   declarations: [
     CaseFacilityShellComponent,
@@ -29,8 +27,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
     CaseListComponent,
     CaseFacilityMobileComponent,
     CaseResidenceMobileComponent,
-    CaseMasterShellComponent,
-    CaseMasterMobileComponent
+    CaseMasterShellComponent
   ],
   imports: [
     LayoutModule,
@@ -41,7 +38,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
     FormsModule,
     SharedModule,
     PipesModule,
-    ScrollingModule
+    VirtualScrollerModule
   ],
   providers: [
     BreakpointObserver,

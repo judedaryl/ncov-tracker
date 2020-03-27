@@ -1,16 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { PHCase } from 'src/app/arcgis/ph-masterlist';
 
 @Component({
   selector: 'app-case-detail',
   templateUrl: './case-detail.component.html',
-  styleUrls: ['./case-detail.component.scss']
+  styleUrls: ['./case-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CaseDetailComponent implements OnInit {
-  @Input() data: PHCase[]
+  @Input() item: PHCase;
+  @Output() select = new EventEmitter<PHCase>();
+  @Input() clickable: boolean = false;
+  @Input() cardClickable: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  onSelect(phcase: PHCase) {
+    if (this.cardClickable) {
+      this.select.emit(phcase);
+    }
+  }
+
 
 }

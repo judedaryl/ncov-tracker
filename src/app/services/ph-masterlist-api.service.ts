@@ -15,7 +15,7 @@ export class PhMasterlistApiService {
 
   getAllCases(): Observable<PHCase[]> {
     const queryParams = new QueryBuilder<PHCase>()
-      .setOrder('FID', 'desc')
+      .setOrder('sequ', 'desc')
       .build();
 
     return this.arcgis.queryArcgis<PHCase>(
@@ -68,7 +68,7 @@ export class PhMasterlistApiService {
 
   searchMasterlist(field: keyof PHCase, search: string): Observable<PHCase[]> {
     const queryParams = new QueryBuilder<PHCase>()
-      .setOrder('FID', 'desc')
+      .setOrder('sequ', 'desc')
       .setQuery(`${field}='${search}'`)
       .build();
     return this.arcgis.queryArcgis<PHCase>(

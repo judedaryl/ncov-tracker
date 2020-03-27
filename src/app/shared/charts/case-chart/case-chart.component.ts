@@ -93,7 +93,7 @@ export class CaseChartComponent implements OnInit {
       }))
     }
 
-    return [caseSeries, recoverySeries, deathSeries]
+    return [ /**caseSeries,**/ recoverySeries, deathSeries]
   }
 
 }
