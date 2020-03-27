@@ -15,7 +15,7 @@ If you are from the **United States**, my colleague [@vdurano](https://github.co
 - CI/CD - **Azure Pipelines**
 - Hosting - **Azure Blob Storage**
 - Distribution - **Azure CDN**
-- Data source - All data comes from [ERIS Arcgis](https://www.esri.com/en-us/home).
+- Data source - All data comes from [ESRI Arcgis](https://www.esri.com/en-us/home).
 
 ## Dependencies
 - [ngx-virtual-scroller](https://www.npmjs.com/package/ngx-virtual-scroller)
