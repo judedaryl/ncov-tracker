@@ -1,6 +1,6 @@
 <div *ngIf="isMobile$ | async; else desktop" class="d-flex flex-column h-100">
     <app-mobile-search (search)="filter.setValue($event)" placeholder="Search by facility"></app-mobile-search>
-    <div class="flex-fill overflow-auto bg-white">
+    <div class="flex-fill overflow-auto ios-scroll bg-white">
         <div class="container-fluid">
             <h6 class="mt-3">PUIs by facility</h6>
         </div>
@@ -36,7 +36,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="overflow-auto rounded border flex-fill">
+                    <div class="overflow-auto ios-scroll rounded border flex-fill">
                         <app-pui-facility-list [data]="data$ | async" (select)="search$.next($event)">
                         </app-pui-facility-list>
                     </div>

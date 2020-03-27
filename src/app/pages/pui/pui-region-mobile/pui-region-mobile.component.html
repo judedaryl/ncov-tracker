@@ -7,7 +7,7 @@
 
     <div #mapContainer style="height: 200px; min-height:200px; width: 100%"></div>
     
-    <div class="flex-fill overflow-auto">
+    <div class="flex-fill overflow-auto ios-scroll">
         <app-pui-list [data]="puis$ | async" (select)="puiSelected$.next($event)"></app-pui-list>
     </div>
     <app-map [target]="mapContainer"></app-map>

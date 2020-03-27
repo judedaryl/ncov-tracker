@@ -24,9 +24,6 @@ export class CaseResidenceMobileComponent implements OnInit, OnDestroy {
   constructor(
     private phMaster: PhMasterlistApiService,
     private activatedRoute: ActivatedRoute) {
-    activatedRoute.params.subscribe(q => {
-      console.log(q)
-    })
   }
 
 

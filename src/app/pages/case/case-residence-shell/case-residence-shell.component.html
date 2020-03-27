@@ -1,6 +1,6 @@
 <div *ngIf="isMobile$ | async; else desktop" class="d-flex flex-column h-100">
     <app-mobile-search (search)="filter.setValue($event)" placeholder="Search by residence"></app-mobile-search>
-    <div class="flex-fill overflow-auto bg-white">
+    <div class="flex-fill overflow-auto ios-scroll bg-white">
         <div class="container-fluid">
             <h6 class="mt-3">Cases by residence</h6>
         </div>
@@ -38,7 +38,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="overflow-auto rounded border flex-fill">
+                    <div class="overflow-auto ios-scroll rounded border flex-fill">
                         <app-case-residence-list [data]="data$ | async" (select)="caseSearch$.next($event)">
                         </app-case-residence-list>
                     </div>
@@ -57,7 +57,7 @@
                         </span>
                     </div>
     
-                    <div class="overflow-auto flex-fill">
+                    <div class="overflow-auto ios-scroll flex-fill">
                         <app-case-list [data]="cases$ | async"
                         [clickable]="true"
                         (select)="caseSelected$.next($event)"

@@ -6,7 +6,7 @@
     </app-mobile-header>
 
     <div #mapContainer style="height: 200px; min-height:200px; width: 100%"></div>
-    <div class="flex-fill overflow-auto" *ngIf="cases$ | async as cases">
+    <div class="flex-fill overflow-auto ios-scroll" *ngIf="cases$ | async as cases">
         <app-case-list [data]="cases"></app-case-list>
     </div>
     <app-map [target]="mapContainer"></app-map>

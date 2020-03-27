@@ -65,7 +65,10 @@ export class QueryBuilder<T extends BaseObject> {
     }
 
     setOrder(prop: keyof T | 'value', order: 'asc' | 'desc' = 'desc'): QueryBuilder<T> {
-        this._queryParams.orderByFields = `${prop} ${order}`;
+        if(typeof this._queryParams.orderByFields !== 'undefined' && this._queryParams.orderByFields) {
+            this._queryParams.orderByFields += ',';
+        }
+        this._queryParams.orderByFields += `${prop} ${order}`;
         return this;
     }
 
