@@ -173,7 +173,7 @@ GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PUI_fac_tracing/FeatureSer
 
 # @name PHMasterlist
 
-GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query
+GET {{baseUri}}/mnYJ21GiFTR97WFg/arcgis/rest/services/twoscale/FeatureServer/0/query
 ?f=json
 &where=1=1
 &returnGeometry=false
