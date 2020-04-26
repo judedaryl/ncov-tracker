@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { HighchartsChartComponent } from 'highcharts-angular';
 import { Confirmed } from 'src/app/arcgis/confirmed';
+import { Accumulation } from 'src/app/graphql/charts-accumulated.query';
 
 @Component({
   selector: 'app-case-chart',
@@ -10,8 +11,8 @@ import { Confirmed } from 'src/app/arcgis/confirmed';
 })
 export class CaseChartComponent implements OnInit {
 
-  @Input() set caseStatistics(stats: Confirmed[]) {
-    this.chartOptions.series = this.buildSeries(stats);
+  @Input() set caseStatistics(accumulate: Accumulation[]) {
+    this.chartOptions.series = this.buildSeries(accumulate);
     if (typeof this.chart !== 'undefined') {
       this.chart.updateOrCreateChart();
     }
@@ -41,6 +42,11 @@ export class CaseChartComponent implements OnInit {
       enabled: true,
       text: 'Department of Health',
       href: 'https://ncovtracker.doh.gov.ph/'
+    },
+    plotOptions: {
+      spline: {
+        lineWidth: 3
+      }
     }
   };
   updateFlag: boolean = false; // optional boolean
@@ -52,48 +58,29 @@ export class CaseChartComponent implements OnInit {
   ngOnInit() {
   }
 
-  buildSeries(caseStatistics: Confirmed[]): Highcharts.SeriesOptionsType[] {
+  buildSeries(caseStatistics: Accumulation[]): Highcharts.SeriesOptionsType[] {
     const stats = caseStatistics || [];
     const baseSeries: Highcharts.SeriesOptionsType = {
       type: 'spline',
       name: '',
       data: [],
       marker: {
-        radius: 3
+        radius: 0
       }
     }
 
     const caseSeries: Highcharts.SeriesOptionsType = {
       ...baseSeries,
-      name: 'Admitted',
+      name: 'Confirmed cases',
       color: 'var(--primary)',
-      data: stats.map(({ date, admitted }) => ({
-        y: admitted,
-        x: date
+      data: stats.sort((a,b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
+        x: new Date(accumulator).getTime(),
+        y: value
       }))
     }
 
-    const recoverySeries: Highcharts.SeriesOptionsType = {
-      ...baseSeries,
-      name: 'Recovered',
-      color: 'var(--success)',
-      data: stats.map(({ date, recovered }) => ({
-        y: recovered,
-        x: date
-      }))
-    }
 
-    const deathSeries: Highcharts.SeriesOptionsType = {
-      ...baseSeries,
-      name: 'Deaths',
-      color: 'var(--danger)',
-      data: stats.map(({ date, deaths }) => ({
-        y: deaths,
-        x: date
-      }))
-    }
-
-    return [ /**caseSeries,**/ recoverySeries, deathSeries]
+    return [caseSeries]
   }
 
 }

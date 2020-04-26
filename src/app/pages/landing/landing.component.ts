@@ -1,16 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SlidingFigureApiService } from 'src/app/services/sliding-figure-api.service';
-import { Observable, interval } from 'rxjs';
-import { mergeMap, startWith } from 'rxjs/operators';
-import { SlidingFigure } from 'src/app/arcgis/sliding-figure';
-import { PHCase } from 'src/app/arcgis/ph-masterlist';
-import { Aggregate } from 'src/app/arcgis/aggregate';
-import { AgeGroupApiService } from 'src/app/services/age-group-api.service';
-import { AgeGroup } from 'src/app/arcgis/age-group';
-import { Confirmed } from 'src/app/arcgis/confirmed';
-import { PhMasterlistApiService } from 'src/app/services/ph-masterlist-api.service';
-import { ConfirmedApiService } from 'src/app/services/confirmed-api.service';
+import { Observable, interval, of } from 'rxjs';
+import { mergeMap, startWith, map } from 'rxjs/operators';
 import { HeaderService } from 'src/app/services/header.service';
+import { ChartsAccumulatedQuery, Accumulation } from 'src/app/graphql/charts-accumulated.query';
+import {  StatisticsQuery, CovidStatistics } from 'src/app/graphql/statistics.query';
+import { DistributionQuery, AgeGroupDistribution } from 'src/app/graphql/distribution.query';
+
 
 @Component({
   selector: 'app-landing',
@@ -19,19 +14,17 @@ import { HeaderService } from 'src/app/services/header.service';
 })
 export class LandingComponent implements OnInit {
 
-  statisticsData$: Observable<SlidingFigure>;
-  caseStatistics$: Observable<Confirmed[]>;
-  ageGroupStatistics$: Observable<Aggregate<AgeGroup>[]>;
-  nationalityStatistics$: Observable<Aggregate<AgeGroup>[]>;
+  statisticsData$: Observable<CovidStatistics>;
+  caseStatistics$: Observable<Accumulation[]>;
+  ageGroupStatistics$: Observable<AgeGroupDistribution[]>;
   
   today = new Date();
   showAlert = true;
 
   constructor(
-    private slideFigService: SlidingFigureApiService,
-    private ageGroup: AgeGroupApiService,
-    private phMaster: PhMasterlistApiService,
-    private confirmedService: ConfirmedApiService,
+    private distributionQuery: DistributionQuery,
+    private accumulatedChartsQuery: ChartsAccumulatedQuery,
+    private statisticsQuery: StatisticsQuery,
     header: HeaderService
     ) {
       header.show();
@@ -44,6 +37,11 @@ export class LandingComponent implements OnInit {
     }
 
   ngOnInit() {
+
+    this.accumulatedChartsQuery.fetch().subscribe(q => {
+      console.log(q);
+    });
+    
     this.setPullInterval();
   }
 
@@ -51,22 +49,20 @@ export class LandingComponent implements OnInit {
   setPullInterval() {
     this.statisticsData$ = interval(1000000).pipe(
       startWith(0),
-      mergeMap(() => this.slideFigService.getStatistics())
-    )
+      mergeMap(() => this.statisticsQuery.fetch()),
+      map(q => q.data.statistics)
+    );
 
     this.caseStatistics$ = interval(1000000).pipe(
       startWith(0),
-      mergeMap(() => this.confirmedService.getConfirmedStatistics())
+      mergeMap(() => this.accumulatedChartsQuery.fetch()),
+      map(q => q.data.total)
     )
 
     this.ageGroupStatistics$ = interval(1000000).pipe(
       startWith(0),
-      mergeMap(() => this.ageGroup.getAgeGroupStatistics())
-    )
-
-    this.nationalityStatistics$ = interval(1000000).pipe(
-      startWith(0),
-      mergeMap(() => this.phMaster.getNationalityStatistic())
+      mergeMap(() => this.distributionQuery.fetch()),
+      map(q => q.data.total)
     )
   }
 

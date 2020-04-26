@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SharedModule } from './shared/shared.module';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SharedModule } from './shared/shared.module';
     HighchartsChartModule,
     AppRoutingModule,
     LayoutModule,
-    SharedModule
+    SharedModule,
+    GraphQLModule
   ],
   providers: [],
   bootstrap: [AppComponent]

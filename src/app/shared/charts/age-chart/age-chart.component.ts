@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { HighchartsChartComponent } from 'highcharts-angular';
-import { Aggregate } from 'src/app/arcgis/aggregate';
-import { AgeGroup, GenderGroup } from 'src/app/arcgis/age-group';
+import { GenderGroup } from 'src/app/arcgis/age-group';
+import { AgeGroupDistribution } from 'src/app/graphql/distribution.query';
 
 @Component({
   selector: 'app-age-chart',
@@ -10,7 +10,7 @@ import { AgeGroup, GenderGroup } from 'src/app/arcgis/age-group';
   styleUrls: ['./age-chart.component.scss']
 })
 export class AgeChartComponent implements OnInit {
-  @Input() set statistics(stats:  Aggregate<AgeGroup>[]) {
+  @Input() set statistics(stats: AgeGroupDistribution[]) {
     this.chartOptions.series = this.buildSeries(stats || []);
     if (typeof this.chart !== 'undefined') {
       this.chart.updateOrCreateChart();
@@ -69,19 +69,21 @@ export class AgeChartComponent implements OnInit {
   ngOnInit() {
   }
 
-  buildSeries(statistics: Aggregate<AgeGroup>[]): Highcharts.SeriesOptionsType[] {
+  buildSeries(statistics: AgeGroupDistribution[]): Highcharts.SeriesOptionsType[] {
 
-    let hashMap: { [id: string]: Aggregate<AgeGroup>[] } = statistics.reduce((obj, val) => {
+    let hashMap: { [id: string]: AgeGroupDistribution[] } = statistics.reduce((obj, val) => {
       (obj[val.sex] = obj[val.sex] || []).push(val);
       return obj;
     }, {})
 
     let stats = Object.keys(hashMap).map((key: GenderGroup) => ({
       gender: key,
-      categories: hashMap[key].map(({ age_categ, value }) => ({
-        category: age_categ,
+      categories: hashMap[key].map(({ ageGroup, value }) => ({
+        category: ageGroup,
         value
       }))
+        .sort((b, a) => parseInt(b.category) - parseInt(a.category))
+        .filter(({ category }) => category !== '')
     }));
 
     return stats.map(({ gender, categories }) => ({

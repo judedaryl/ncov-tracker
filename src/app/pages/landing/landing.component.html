@@ -11,37 +11,29 @@
 <div class="container-fluid mt-3 mt-md-4" *ngIf="statisticsData$ | async as stat else loading">
   <div class="row">
     <div class="col-lg mb-2 mb-lg-0 ">
-      <app-stat-card [value]="stat.confirmed" title="Confirmed Cases" textColor="dark" bgColor="white"
+      <app-stat-card [value]="stat.total" title="Confirmed Cases (+{{stat.new}})" textColor="dark" bgColor="white"
         information="as of {{today | date : 'MMM dd, yyyy'}}" [headerIcon]="'fa-user'"></app-stat-card>
     </div>
     <div class="col-lg mb-2 mb-lg-0 ">
-      <app-stat-card [value]="stat.deaths" textColor="white" bgColor="danger" title="Deaths"
-        information="{{ (stat.deaths / stat.confirmed) | percent: '1.2-2' }} fatality rate" [headerIcon]="'fa-skull'">
+      <app-stat-card [value]="stat.died" textColor="white" bgColor="danger" title="Deaths"
+        information="{{ (stat.died / stat.total) | percent: '1.2-2' }} fatality rate" [headerIcon]="'fa-skull'">
       </app-stat-card>
     </div>
     <div class="col-lg mb-2 mb-lg-0">
       <app-stat-card [value]="stat.recovered" textColor="white" bgColor="success" title="Recovered"
-        information="{{ (stat.recovered / stat.confirmed) | percent: '1.2-2' }} recovery rate"
+        information="{{ (stat.recovered / stat.total) | percent: '1.2-2' }} recovery rate"
         [headerIcon]="'fa-user-check'">
       </app-stat-card>
     </div>
     <div class="col-lg mb-2 mb-lg-0">
-      <app-stat-card [value]="stat.PUMs" textColor="white" bgColor="primary" [title]="'PUMs'"
-        [information]="'Persons monitored'" [headerIcon]="'fa-hospital'"></app-stat-card>
-    </div>
-    <div class="col-lg mb-2 mb-lg-0">
-      <app-stat-card [value]="stat.PUIs" textColor="white" bgColor="secondary" [title]="'PUIs'"
-        [information]="'Persons under investigation'" [headerIcon]="'fa-search'"></app-stat-card>
-    </div>
-    <div class="col-lg mb-2 mb-lg-0">
-      <app-stat-card [value]="stat.tests" textColor="white" bgColor="dark" [title]="'Tests'"
-        [information]="'Tests conducted'" [headerIcon]="'fa-vial'"></app-stat-card>
+      <app-stat-card [value]="stat.admitted" textColor="white" bgColor="primary" [title]="'Admitted'"
+        [information]="'Persons admitted'" [headerIcon]="'fa-hospital'"></app-stat-card>
     </div>
   </div>
 </div>
 <div class="container-fluid mt-3 mt-md-4">
   <div class="row">
-    <div class="col-lg mb-3 mb-md-0">
+    <div class="col-lg-7 mb-3 mb-md-0">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title mb-3">Case trends</h5>
@@ -61,7 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg">
+    <!-- <div class="col-lg">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title mb-3">Nationality distribution</h5>
@@ -70,7 +62,7 @@
           <app-nationality-chart [statistics]="nationalityStatistics$ | async"></app-nationality-chart>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -78,36 +70,6 @@
   <h5 class="text-muted">Drilldown</h5>
   <small></small>
   <div class="row mt-3">
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/case" title="PH case masterlist"
-        description="View all COVID-19 cases in the Philippines with mapping and case information">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/case/facility" title="Cases by facility"
-        description="Explore facilities with confirmed cases with a map and case data">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/case/residence" title="Cases by residence"
-        description="Discover residences with confirmed cases with a map and case data">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/pui/facility" title="PUIs by facility"
-        description="View facilities with persons under investigation with a map">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/pui/region" title="PUIs by region"
-        description="Get to know the regions with persons under investigation with a map">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/inventory/region" title="Medical supply by region"
-        description="View a detailed report of the medical supply inventory per region">
-      </app-shortcut-card>
-    </div>
     <div class="col-lg-2 mb-3">
       <a href="http://trackncov.vmsdurano.com" class="text-decoration-none">
         <div class="card text-dark bg-white">
@@ -129,12 +91,37 @@
         </div>
       </a>
     </div>
+
     <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="City heatmaps" description="Under construction...">
+      <app-shortcut-card routerLink="/" title="PH case masterlist" description="Under construction..." [disabled]="true">
       </app-shortcut-card>
     </div>
     <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="PUI masterlist" description="Under construction...">
+      <app-shortcut-card routerLink="/" title="Cases by facility" description="Under construction..." [disabled]="true">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3">
+      <app-shortcut-card routerLink="/" title="Cases by residence" description="Under construction..." [disabled]="true">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3">
+      <app-shortcut-card routerLink="/" title="PUIs by facility" description="Under construction..." [disabled]="true">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3">
+      <app-shortcut-card routerLink="/" title="PUIs by region" description="Under construction..." [disabled]="true">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3">
+      <app-shortcut-card routerLink="/" title="Medical supply by region" description="Under construction..." [disabled]="true">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3">
+      <app-shortcut-card routerLink="/" title="City heatmaps" description="Under construction..." [disabled]="true">
+      </app-shortcut-card>
+    </div>
+    <div class="col-lg-2 mb-3">
+      <app-shortcut-card routerLink="/" title="PUI masterlist" description="Under construction..." [disabled]="true">
       </app-shortcut-card>
     </div>
   </div>
