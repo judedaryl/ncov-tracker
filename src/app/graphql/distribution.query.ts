@@ -22,7 +22,7 @@ export interface DistributionQueryData {
 })
 export class DistributionQuery extends Query<DistributionQueryData> {
     document = gql`        
-        fragment ageGenderFragment on AgeGenderDistributionType {
+        fragment ageGenderFragment on AgeGenderDistribution {
             ageGroup
             sex
             value

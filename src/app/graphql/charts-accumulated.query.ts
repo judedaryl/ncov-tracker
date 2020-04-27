@@ -21,7 +21,7 @@ export interface ChartsQueryData {
 })
 export class ChartsAccumulatedQuery extends Query<ChartsQueryData> {
     document = gql`
-        fragment chartAccumulateFragment on DateIntAccumulationType {
+        fragment chartAccumulateFragment on Accumulation {
             accumulator
             value
         }
