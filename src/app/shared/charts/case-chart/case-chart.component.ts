@@ -11,11 +11,12 @@ import { Accumulation } from 'src/app/graphql/charts-accumulated.query';
 })
 export class CaseChartComponent implements OnInit {
 
-  @Input() set caseStatistics(accumulate: Accumulation[]) {
-    this.chartOptions.series = this.buildSeries(accumulate);
-    if (typeof this.chart !== 'undefined') {
+  @Input() set caseStatistics(accumulations: Accumulation[][]) {
+    if (accumulations != null && typeof accumulations !== 'undefined' && typeof this.chart !== 'undefined') {
+      this.chartOptions.series = this.buildSeries(accumulations[0], accumulations[1], accumulations[2]);
       this.chart.updateOrCreateChart();
     }
+
   }
 
   @ViewChild('chart', { static: false }) chart: HighchartsChartComponent;
@@ -58,8 +59,7 @@ export class CaseChartComponent implements OnInit {
   ngOnInit() {
   }
 
-  buildSeries(caseStatistics: Accumulation[]): Highcharts.SeriesOptionsType[] {
-    const stats = caseStatistics || [];
+  buildSeries(total: Accumulation[], recovered: Accumulation[], died: Accumulation[]): Highcharts.SeriesOptionsType[] {
     const baseSeries: Highcharts.SeriesOptionsType = {
       type: 'spline',
       name: '',
@@ -73,14 +73,34 @@ export class CaseChartComponent implements OnInit {
       ...baseSeries,
       name: 'Confirmed cases',
       color: 'var(--primary)',
-      data: stats.sort((a,b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
+      data: (total || []).sort((a, b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
+        x: new Date(accumulator).getTime(),
+        y: value
+      }))
+    }
+
+    const diedSeries: Highcharts.SeriesOptionsType = {
+      ...baseSeries,
+      name: 'Died',
+      color: 'var(--danger)',
+      data: (died || []).sort((a, b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
+        x: new Date(accumulator).getTime(),
+        y: value
+      }))
+    }
+
+    const recoveredSeries: Highcharts.SeriesOptionsType = {
+      ...baseSeries,
+      name: 'Recovered',
+      color: 'var(--success)',
+      data: (recovered || []).sort((a, b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
         x: new Date(accumulator).getTime(),
         y: value
       }))
     }
 
 
-    return [caseSeries]
+    return [caseSeries, recoveredSeries, diedSeries]
   }
 
 }

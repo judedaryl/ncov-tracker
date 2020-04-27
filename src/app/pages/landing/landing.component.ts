@@ -15,7 +15,7 @@ import { DistributionQuery, AgeGroupDistribution } from 'src/app/graphql/distrib
 export class LandingComponent implements OnInit {
 
   statisticsData$: Observable<CovidStatistics>;
-  caseStatistics$: Observable<Accumulation[]>;
+  caseStatistics$: Observable<Accumulation[][]>;
   ageGroupStatistics$: Observable<AgeGroupDistribution[]>;
   
   today = new Date();
@@ -56,7 +56,7 @@ export class LandingComponent implements OnInit {
     this.caseStatistics$ = interval(1000000).pipe(
       startWith(0),
       mergeMap(() => this.accumulatedChartsQuery.fetch()),
-      map(q => q.data.total)
+      map(({data}) => data ? [data.total, data.recovered, data.died] : [[],[],[]])
     )
 
     this.ageGroupStatistics$ = interval(1000000).pipe(
