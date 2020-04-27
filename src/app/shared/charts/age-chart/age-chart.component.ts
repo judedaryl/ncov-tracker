@@ -70,7 +70,7 @@ export class AgeChartComponent implements OnInit {
   }
 
   buildSeries(statistics: AgeGroupDistribution[]): Highcharts.SeriesOptionsType[] {
-
+    statistics = statistics.filter(({sex}) => sex !== '');
     let hashMap: { [id: string]: AgeGroupDistribution[] } = statistics.reduce((obj, val) => {
       (obj[val.sex] = obj[val.sex] || []).push(val);
       return obj;
@@ -78,11 +78,12 @@ export class AgeChartComponent implements OnInit {
 
     let stats = Object.keys(hashMap).map((key: GenderGroup) => ({
       gender: key,
-      categories: hashMap[key].map(({ ageGroup, value }) => ({
+      categories: hashMap[key]
+      .sort((a,b) => parseInt(a.ageGroup) - parseInt(b.ageGroup))
+      .map(({ ageGroup, value }) => ({
         category: ageGroup,
         value
       }))
-        .sort((b, a) => parseInt(b.category) - parseInt(a.category))
         .filter(({ category }) => category !== '')
     }));
 
