@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { HighchartsChartComponent } from 'highcharts-angular';
-import { GenderGroup } from 'src/app/arcgis/age-group';
 import { AgeGroupDistribution } from 'src/app/graphql/distribution.query';
 
 @Component({
@@ -76,7 +75,7 @@ export class AgeChartComponent implements OnInit {
       return obj;
     }, {})
 
-    let stats = Object.keys(hashMap).map((key: GenderGroup) => ({
+    let stats = Object.keys(hashMap).map((key: string) => ({
       gender: key,
       categories: hashMap[key]
       .sort((a,b) => parseInt(a.ageGroup) - parseInt(b.ageGroup))

@@ -1,3 +1,114 @@
+<div class="bg-white py-3">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between mb-3">
+      <div>
+        <h5 class="m-0">COVID Tracker PH</h5>
+        <small class="text-muted">Overview</small>
+      </div>
+      <div>
+        <button class="btn-primary btn" (click)="openModal(locationSelection)">
+          <div class="d-flex align-items-center">
+            <div style="
+              width: 130px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;">
+              <span>{{ locationDisplay | async }}</span>
+            </div>
+            <i class="fas fa-chevron-down ml-2 cursor-pointer"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <ng-container *ngIf="dashboardData$ | async as data">
+        <div class="col-lg-3">
+          <app-dashboard-card [chart]="data.total" [value]="data.statistics.total">
+            <div title class="d-flex align-items-center">
+              <small class="mr-1"> <i class="fa fa-user"></i></small>
+              <small class="text-muted d-block">Confirmed Cases</small>
+            </div>
+            <small class="text-secondary" description>{{ data.statistics.new | number}} new, as of
+              {{ today | date: 'MMM dd'}}</small>
+          </app-dashboard-card>
+        </div>
+        <div class="mt-3 mt-lg-0 col-lg-3">
+          <div class="card bg-primary text-white">
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div title class="d-flex align-items-center">
+                    <small class="mr-1"> <i class="fa fa-user-plus"></i></small>
+                    <small class="d-block">Active cases</small>
+                  </div>
+                  <small class="text-white" description>{{ data.statistics.active / data.statistics.total | percent}}
+                    of total</small>
+                </div>
+                <div>
+                  <h4 class="text-right m-0">{{ data.statistics.active | number}}</h4>
+                </div>
+              </div>
+            </div>
+            <div style="height: 100px">
+              <app-daily-chart [data]="data.active" color="var(--white)"></app-daily-chart>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 mt-lg-0 col-lg-3">
+          <div class="card bg-success text-white">
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div title class="d-flex align-items-center">
+                    <small class="mr-1"> <i class="fa fa-user-check"></i></small>
+                    <small class="text-white d-block">Recovered</small>
+                  </div>
+                  <small class="text-white" description>{{ data.statistics.recoveredNew | number}} new,
+                    {{ data.statistics.recovered / data.statistics.total | percent}}
+                    of total</small>
+                </div>
+                <div>
+                  <h4 class="text-right m-0">{{ data.statistics.recovered | number}}</h4>
+                </div>
+              </div>
+            </div>
+            <div style="height: 100px">
+              <app-daily-chart [data]="data.recovered" color="var(--white)"></app-daily-chart>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 mt-lg-0 col-lg-3">
+          <div class="card bg-danger text-white">
+            <div class="card-body pb-0">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div title class="d-flex align-items-center">
+                    <small class="mr-1"> <i class="fa fa-skull"></i></small>
+                    <small class="text-white d-block">Deaths</small>
+                  </div>
+                  <small class="text-white" description>{{ data.statistics.diedNew | number}} new.
+                    {{ data.statistics.died / data.statistics.total | percent}}
+                    of total</small>
+                </div>
+                <div>
+                  <h4 class="text-right m-0">{{ data.statistics.died | number}}</h4>
+                </div>
+              </div>
+            </div>
+            <div style="height: 100px">
+              <app-daily-chart [data]="data.died" color="var(--white)"></app-daily-chart>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="col-lg">
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container-fluid mt-3 mt-md-4" *ngIf="showAlert">
   <div class="alert alert-info alert-dismissible fade show" role="alert">
     <strong>Note: </strong>This uses the same data source as the <a href="https://ncovtracker.doh.gov.ph/"
@@ -8,69 +119,30 @@
   </div>
 </div>
 
-<div class="container-fluid mt-3 mt-md-4" *ngIf="statisticsData$ | async as stat else loading">
-  <div class="row">
-    <div class="col-lg mb-2 mb-lg-0 ">
-      <app-stat-card [value]="stat.total" title="Confirmed Cases (+{{stat.new}})" textColor="dark" bgColor="white"
-        information="as of {{today | date : 'MMM dd, yyyy'}}" [headerIcon]="'fa-user'"></app-stat-card>
-    </div>
-    <div class="col-lg mb-2 mb-lg-0 ">
-      <app-stat-card [value]="stat.died" textColor="white" bgColor="danger" title="Deaths"
-        information="{{ (stat.died / stat.total) | percent: '1.2-2' }} fatality rate" [headerIcon]="'fa-skull'">
-      </app-stat-card>
-    </div>
-    <div class="col-lg mb-2 mb-lg-0">
-      <app-stat-card [value]="stat.recovered" textColor="white" bgColor="success" title="Recovered"
-        information="{{ (stat.recovered / stat.total) | percent: '1.2-2' }} recovery rate"
-        [headerIcon]="'fa-user-check'">
-      </app-stat-card>
-    </div>
-    <div class="col-lg mb-2 mb-lg-0">
-      <app-stat-card [value]="stat.admitted" textColor="white" bgColor="primary" [title]="'Admitted'"
-        [information]="'Persons admitted'" [headerIcon]="'fa-hospital'"></app-stat-card>
-    </div>
-  </div>
-</div>
 <div class="container-fluid mt-3 mt-md-4">
   <div class="row">
     <div class="col-lg-7 mb-3 mb-md-0">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title mb-3">Case trends</h5>
-        </div>
+      <small class="text-muted">Case Trends ( National level )</small>
+      <div class="card mt-3">
         <div class="p-3">
           <app-case-chart [caseStatistics]="caseStatistics$ | async"></app-case-chart>
         </div>
       </div>
     </div>
-    <div class="col-lg mb-3 mb-md-0">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title mb-3">Age and gender distribution</h5>
-        </div>
+    <div class="col-lg-5 mb-3 mb-md-0">
+      <small class="text-muted">Age and gender distribution ( National level )</small>
+      <div class="card mt-3">
         <div class="p-3">
           <app-age-chart [statistics]="ageGroupStatistics$ | async"></app-age-chart>
         </div>
       </div>
     </div>
-    <!-- <div class="col-lg">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title mb-3">Nationality distribution</h5>
-        </div>
-        <div class="p-3">
-          <app-nationality-chart [statistics]="nationalityStatistics$ | async"></app-nationality-chart>
-        </div>
-      </div>
-    </div> -->
   </div>
 </div>
-
 <div class="container-fluid mt-4 mt-md-5">
-  <h5 class="text-muted">Drilldown</h5>
-  <small></small>
+  <small class="text-muted">Other Services</small>
   <div class="row mt-3">
-    <div class="col-lg-2 mb-3">
+    <div class="col-lg-3 mb-3">
       <a href="http://trackncov.vmsdurano.com" class="text-decoration-none">
         <div class="card text-dark bg-white">
           <div class="card-body">
@@ -91,39 +163,6 @@
         </div>
       </a>
     </div>
-
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="PH case masterlist" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="Cases by facility" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="Cases by residence" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="PUIs by facility" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="PUIs by region" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="Medical supply by region" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="City heatmaps" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
-    <div class="col-lg-2 mb-3">
-      <app-shortcut-card routerLink="/" title="PUI masterlist" description="Under construction..." [disabled]="true">
-      </app-shortcut-card>
-    </div>
   </div>
 </div>
 
@@ -133,5 +172,47 @@
 <ng-template #loading>
   <div class="container-fluid p-5">
     <span class="text-muted">Loading data...</span>
+  </div>
+</ng-template>
+
+<ng-template #locationSelection>
+  <div class="p-2">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form [formGroup]="locationForm">
+      <div>
+        <div class="form-group">
+          <label for="region-select"><small class="text-muted">Region</small></label>
+          <select name="region_select" id="region-select" class="form-control" formControlName="region">
+            <option value="">All</option>
+            <option *ngFor="let select of regionSelect$ | async" [value]="select.value">
+              {{ select.display }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="region-select"><small class="text-muted">Province</small></label>
+          <select name="region_select" id="region-select" class="form-control" formControlName="province">
+            <option value="">All</option>
+            <option *ngFor="let select of provinceSelect$ | async" [value]="select.value">
+              {{ select.display }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="region-select"><small class="text-muted">City</small></label>
+          <select name="region_select" id="region-select" class="form-control" formControlName="city">
+            <option value="">All</option>
+            <option *ngFor="let select of citySelect$ | async" [value]="select.value">
+              {{ select.display }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </form>
   </div>
 </ng-template>

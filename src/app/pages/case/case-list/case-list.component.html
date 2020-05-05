@@ -1,6 +1,0 @@
-<virtual-scroller #scroll [items]="data" class="h-100">
-    <div class="list-group-item" *ngFor="let item of scroll.viewPortItems; trackBy: trackByFunction">
-        <app-case-detail [item]="item" (select)="onSelect(item)" [cardClickable]="cardClickable"
-            [clickable]="clickable"></app-case-detail>
-    </div>
-</virtual-scroller>

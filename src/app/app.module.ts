@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SharedModule } from './shared/shared.module';
 import { GraphQLModule } from './graphql.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { GraphQLModule } from './graphql.module';
     AppRoutingModule,
     LayoutModule,
     SharedModule,
-    GraphQLModule
+    GraphQLModule,
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

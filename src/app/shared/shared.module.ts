@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgeChartComponent } from './charts/age-chart/age-chart.component';
 import { CaseChartComponent } from './charts/case-chart/case-chart.component';
-import { NationalityChartComponent } from './charts/nationality-chart/nationality-chart.component';
-import { ResidenceChartComponent } from './charts/residence-chart/residence-chart.component';
 import { StatCardComponent } from './stat-card/stat-card.component';
 import { FacebookFeedComponent } from './social/facebook-feed/facebook-feed.component';
 import { TwitterTweetComponent } from './social/twitter-tweet/twitter-tweet.component';
@@ -16,14 +14,13 @@ import { MobileHeaderComponent } from './mobile-header/mobile-header.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MobileSearchComponent } from './mobile-search/mobile-search.component';
+import { DailyChartComponent } from './charts/daily-chart/daily-chart.component';
 
 
 @NgModule({
   declarations: [
     AgeChartComponent,
     CaseChartComponent,
-    NationalityChartComponent,
-    ResidenceChartComponent,
     StatCardComponent,
     TwitterTweetComponent,
     TwitterFeedComponent,
@@ -32,7 +29,8 @@ import { MobileSearchComponent } from './mobile-search/mobile-search.component';
     MapComponent,
     FooterComponent,
     MobileHeaderComponent,
-    MobileSearchComponent
+    MobileSearchComponent,
+    DailyChartComponent
   ],
   imports: [
     CommonModule,
@@ -44,8 +42,6 @@ import { MobileSearchComponent } from './mobile-search/mobile-search.component';
   exports: [
     AgeChartComponent,
     CaseChartComponent,
-    NationalityChartComponent,
-    ResidenceChartComponent,
     StatCardComponent,
     TwitterTweetComponent,
     TwitterFeedComponent,
@@ -54,7 +50,8 @@ import { MobileSearchComponent } from './mobile-search/mobile-search.component';
     MapComponent,
     FooterComponent,
     MobileHeaderComponent,
-    MobileSearchComponent
+    MobileSearchComponent,
+    DailyChartComponent
   ]
 })
 export class SharedModule { }

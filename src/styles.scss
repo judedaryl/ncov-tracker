@@ -2,29 +2,52 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 
+// $border-radius: 1.5rem;
+// $border-radius-sm: 1rem;
+// $border-radius-lg: 2rem;
+
+$light: hsl(0, 0%, 92%);
+$dark: hsl(30, 11%, 11%);
+$primary: hsl(210, 96%, 40%);
+$secondary: hsl(210, 96%, 33%);
+$warning: hsl(43, 89%, 53%);
+$danger: hsl(345, 91%, 48%);
+$body-color: #181446;
+$info: #32cbff;
+
 $theme-colors: (
-  "primary":    #003C71,
-  "secondary":  #0066F5,
-  "success":    #009104,
-  "info":       #007AFF,
-  "warning":    #FCAE00,
-  "danger":     #dc3545,
-  "light":      $gray-100,
-  "dark":       #222222
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark
 );
 
+$theme-colors-x: (
+  "primary": #242526,
+  "secondary": #4599ff,
+  "success": #a3ce71,
+  "info": #6bcebb,
+  "warning": #fcd872,
+  "danger": #f3425f,
+  "light": #3a3b3c,
+  "dark": #222222,
+);
 
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
 @import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "@fortawesome/fontawesome-free/scss/solid.scss";
 @import "@fortawesome/fontawesome-free/scss/brands.scss";
 
-
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
 .ios-scroll {

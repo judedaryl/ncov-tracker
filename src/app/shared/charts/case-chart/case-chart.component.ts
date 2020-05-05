@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { HighchartsChartComponent } from 'highcharts-angular';
-import { Confirmed } from 'src/app/arcgis/confirmed';
 import { Accumulation } from 'src/app/graphql/charts-accumulated.query';
 
 @Component({
@@ -28,7 +27,8 @@ export class CaseChartComponent implements OnInit {
       text: '',
     },
     xAxis: {
-      type: 'datetime'
+      type: 'datetime',
+
     },
     yAxis: {
       labels: {
@@ -37,7 +37,9 @@ export class CaseChartComponent implements OnInit {
       title: {
         text: ''
       },
-      tickPixelInterval: 50
+      tickPixelInterval: 50,
+      gridLineColor: 'transparent',
+      lineColor: 'transparent'
     },
     credits: {
       enabled: true,
@@ -60,8 +62,10 @@ export class CaseChartComponent implements OnInit {
   }
 
   buildSeries(total: Accumulation[], recovered: Accumulation[], died: Accumulation[]): Highcharts.SeriesOptionsType[] {
+    let now = new Date();
+    now.setMonth(now.getMonth() - 2);
     const baseSeries: Highcharts.SeriesOptionsType = {
-      type: 'spline',
+      type: 'area',
       name: '',
       data: [],
       marker: {
@@ -72,9 +76,11 @@ export class CaseChartComponent implements OnInit {
     const caseSeries: Highcharts.SeriesOptionsType = {
       ...baseSeries,
       name: 'Confirmed cases',
-      color: 'var(--primary)',
-      data: (total || []).sort((a, b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
-        x: new Date(accumulator).getTime(),
+      color: '#0466c85f',
+      data: (total || []).map(({ accumulator, value }) => ({ accumulator: new Date(accumulator), value }))
+      .filter(({accumulator}) => accumulator.getTime() > now.getTime())
+      .sort((a, b) => a.accumulator.getTime() - b.accumulator.getTime()).map(({ value, accumulator }) => ({
+        x: accumulator.getTime(),
         y: value
       }))
     }
@@ -82,9 +88,11 @@ export class CaseChartComponent implements OnInit {
     const diedSeries: Highcharts.SeriesOptionsType = {
       ...baseSeries,
       name: 'Died',
-      color: 'var(--danger)',
-      data: (died || []).sort((a, b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
-        x: new Date(accumulator).getTime(),
+      color: '#ea0b435f',
+      data: (died || []).map(({ accumulator, value }) => ({ accumulator: new Date(accumulator), value }))
+      .filter(({accumulator}) => accumulator.getTime() > now.getTime())
+      .sort((a, b) => a.accumulator.getTime() - b.accumulator.getTime()).map(({ value, accumulator }) => ({
+        x: accumulator.getTime(),
         y: value
       }))
     }
@@ -92,9 +100,11 @@ export class CaseChartComponent implements OnInit {
     const recoveredSeries: Highcharts.SeriesOptionsType = {
       ...baseSeries,
       name: 'Recovered',
-      color: 'var(--success)',
-      data: (recovered || []).sort((a, b) => new Date(a.accumulator).getTime() - new Date(b.accumulator).getTime()).map(({ value, accumulator }) => ({
-        x: new Date(accumulator).getTime(),
+      color: '#28a7455f',
+      data: (recovered || []).map(({ accumulator, value }) => ({ accumulator: new Date(accumulator), value }))
+      .filter(({accumulator}) => accumulator.getTime() > now.getTime())
+      .sort((a, b) => a.accumulator.getTime() - b.accumulator.getTime()).map(({ value, accumulator }) => ({
+        x: accumulator.getTime(),
         y: value
       }))
     }

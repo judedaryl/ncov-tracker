@@ -1,10 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, interval, of } from 'rxjs';
-import { mergeMap, startWith, map } from 'rxjs/operators';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Observable, interval, of, combineLatest, merge } from 'rxjs';
+import { mergeMap, startWith, map, finalize, debounceTime } from 'rxjs/operators';
 import { HeaderService } from 'src/app/services/header.service';
 import { ChartsAccumulatedQuery, Accumulation } from 'src/app/graphql/charts-accumulated.query';
-import {  StatisticsQuery, CovidStatistics } from 'src/app/graphql/statistics.query';
+import { StatisticsQuery } from 'src/app/graphql/statistics.query';
 import { DistributionQuery, AgeGroupDistribution } from 'src/app/graphql/distribution.query';
+import { ChartsDailyQuery } from 'src/app/graphql/charts-daily.query';
+import { DailyStatistic } from 'src/app/models/daily-statistic';
+import { CaseStatistics } from 'src/app/models/case-statistics';
+import { DashboardQuery, DashboardQueryData } from './dashboard.query';
+import { Apollo } from 'apollo-angular';
+import { SelectItem } from 'src/app/models/select-item';
+import gql from 'graphql-tag';
+import { regionQuery, provinceQuery, cityQuery, RegionQuery, ProvinceQuery, ProvinceQueryVariables, CityQuery, CityQueryVariables } from './landing.queries';
+import { FormControl, FormGroup } from '@angular/forms';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -13,56 +23,148 @@ import { DistributionQuery, AgeGroupDistribution } from 'src/app/graphql/distrib
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
+  modalRef: BsModalRef;
+  locationDisplay: Observable<string>;
 
-  statisticsData$: Observable<CovidStatistics>;
+  dashboardData$: Observable<DashboardQueryData>;
   caseStatistics$: Observable<Accumulation[][]>;
   ageGroupStatistics$: Observable<AgeGroupDistribution[]>;
-  
+
+  regionSelect$: Observable<SelectItem[]>;
+  provinceSelect$: Observable<SelectItem[]>;
+  citySelect$: Observable<SelectItem[]>;
+
+  locationForm = new FormGroup({
+    region: new FormControl(''),
+    province: new FormControl(''),
+    city: new FormControl('')
+  })
+  regionControl = this.locationForm.get('region');
+  provinceControl = this.locationForm.get('province');
+  cityControl = this.locationForm.get('city');
+
   today = new Date();
   showAlert = true;
 
   constructor(
+    private dashboardQuery: DashboardQuery,
     private distributionQuery: DistributionQuery,
     private accumulatedChartsQuery: ChartsAccumulatedQuery,
-    private statisticsQuery: StatisticsQuery,
+    private apollo: Apollo,
+    private modalService: BsModalService,
     header: HeaderService
-    ) {
-      header.show();
-      this.showAlert = localStorage.getItem('show-alert') !== 'false';
-    }
-  
-    closeAlert() {
-      this.showAlert = false;
-      localStorage.setItem('show-alert', 'false')
-    }
+  ) {
+    header.show();
+    this.showAlert = localStorage.getItem('show-alert') !== 'false';
+  }
+
+  closeAlert() {
+    this.showAlert = false;
+    localStorage.setItem('show-alert', 'false')
+  }
 
   ngOnInit() {
-
-    this.accumulatedChartsQuery.fetch().subscribe(q => {
-      console.log(q);
-    });
-    
     this.setPullInterval();
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {
+      class: 'modal-dialog-centered'
+    });
   }
 
 
   setPullInterval() {
-    this.statisticsData$ = interval(1000000).pipe(
-      startWith(0),
-      mergeMap(() => this.statisticsQuery.fetch()),
-      map(q => q.data.statistics)
-    );
 
     this.caseStatistics$ = interval(1000000).pipe(
       startWith(0),
       mergeMap(() => this.accumulatedChartsQuery.fetch()),
-      map(({data}) => data ? [data.total, data.recovered, data.died] : [[],[],[]])
+      map(({ data }) => data ? [data.total, data.recovered, data.died] : [[], [], []])
     )
+
+    this.dashboardData$ = combineLatest(
+      interval(100000).pipe(startWith(0)),
+      this.locationForm.valueChanges.pipe(
+        startWith({
+          region: '',
+          province: '',
+          city: ''
+        })
+      )).pipe(
+        mergeMap((val) =>
+          this.dashboardQuery.fetch(val[1])
+        ),
+        map(({ data }) => data)
+      )
 
     this.ageGroupStatistics$ = interval(1000000).pipe(
       startWith(0),
       mergeMap(() => this.distributionQuery.fetch()),
       map(q => q.data.total)
+    )
+
+    this.regionSelect$ = this.apollo.watchQuery<RegionQuery>({
+      query: regionQuery
+    }).valueChanges.pipe(
+      mergeMap(q => {
+        this.regionControl.reset('');
+        return of(q)
+      }),
+      map(q => q.data.region),
+    )
+
+    this.provinceSelect$ = this.regionControl.valueChanges.pipe(
+      startWith(''),
+      mergeMap((region) => {
+        this.provinceControl.reset('');
+        this.cityControl.reset('');
+        return this.apollo.watchQuery<ProvinceQuery, ProvinceQueryVariables>({
+          query: provinceQuery,
+          variables: {
+            region: region || ''
+          }
+        }).valueChanges
+      }),
+      map(q => q.data.province)
+    )
+
+    this.citySelect$ = combineLatest(
+      this.regionControl.valueChanges.pipe(startWith('')),
+      this.provinceControl.valueChanges.pipe(startWith(''))).pipe(
+        mergeMap(val => {
+          this.cityControl.reset('');
+          let region = val[0] || ''
+          let province = val[1] || ''
+          return this.apollo.watchQuery<CityQuery, CityQueryVariables>({
+            query: cityQuery,
+            variables: {
+              region,
+              province
+            }
+          }).valueChanges
+        }),
+        map(q => q.data.city)
+      )
+
+    this.locationDisplay = this.locationForm.valueChanges.pipe(
+      startWith({
+        region: '',
+        province: '',
+        city: ''
+      }),
+      debounceTime(100),
+      map((formVal) => {
+        const { region, province, city } = formVal;
+        if (city) {
+          return city;
+        } else if (province) {
+          return province;
+        } else if (region) {
+          return region;
+        } else {
+          return 'Philippines'
+        }
+      })
     )
   }
 

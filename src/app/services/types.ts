@@ -1,1 +1,0 @@
-export type StatisticType = 'pums' | 'confirmed' | 'deaths' | 'recovered' | 'tests';

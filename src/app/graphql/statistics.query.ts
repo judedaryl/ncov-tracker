@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Query } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { CaseStatistics } from '../models/case-statistics';
 
 
-export interface CovidStatistics {
-    total: number
-    new: number
-    admitted: number
-    recovered: number
-    died: number
-}
 
 export interface StatisticsQueryData {
-    statistics: CovidStatistics;
+    statistics: CaseStatistics;
 }
 
 
