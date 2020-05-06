@@ -8,18 +8,25 @@ import { DailyStatistic } from '../../../models/daily-statistic';
   styleUrls: ['./daily-chart.component.scss']
 })
 export class DailyChartComponent implements OnInit {
+  _data: DailyStatistic[];
+  _color: string;
 
-  @Input() data: DailyStatistic[];
-  @Input() color: string;
+  @Input() set data(data: DailyStatistic[]) {
+    this._data = data;
+    this.updateChart();
+  }
 
-  // @Input() set data(data: DailyStatistic[]) {
-  //   console.log(data)
-  //   if (data != null && typeof data !== 'undefined' && typeof this.chart !== 'undefined') {
+  @Input() set color(color: string) {
+    this._color = color;
+    this.updateChart();
+  }
 
-  //     this.chartOptions.series = this.buildSeries(data);
-  //     this.chart.updateOrCreateChart();
-  //   }
-  // }
+  updateChart() {
+    if (this._data !== null && typeof this._data !== 'undefined' && typeof this.chart !== 'undefined' && typeof this._color !== 'undefined') {
+      this.chartOptions.series = this.buildSeries(this._data);
+      this.updateFlag = true;
+    }
+  }
 
   @ViewChild('chart', { static: true }) chart: HighchartsChartComponent;
 
@@ -87,15 +94,33 @@ export class DailyChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-      if (this.data != null && typeof this.data !== 'undefined' && typeof this.chart !== 'undefined') {
-        this.chartOptions.series = this.buildSeries(this.data);
-      }
+
   }
 
   buildSeries(data: DailyStatistic[]): Highcharts.SeriesOptionsType[] {
-    let currDate = new Date();
+    if(data.length === 0) return;
+    let latestDate = data[data.length - 1].date;
+    let currDate = new Date(latestDate);
     currDate.setMonth(currDate.getMonth() - 2)
-    data = data.filter(({ date }) => new Date(date).getTime() > currDate.getTime())
+    let copy = new Date(currDate.getTime())
+    data = data.filter(({ date }) => new Date(date).getTime() > currDate.getTime()).map(({ value, date }) => ({ value, date: new Date(new Date(date).setHours(0,0,0,0)) }))
+    let dayDiff = (new Date(latestDate).getTime() - currDate.getTime()) / (1000 * 60 * 60 * 24);
+
+
+    let arr = new Array(dayDiff).fill(new Date(copy.setHours(0, 0, 0, 0))).map((date: Date, i) => ({
+      value: 0,
+      date: new Date(date.setDate(date.getDate() + 1))
+    }))
+
+    arr = arr.map(({ value, date }) => {      
+      let existing = data.find(q =>  q.date.getTime() === date.getTime());
+      value +=  existing ? existing.value : 0;;
+      return {
+        value,
+        date
+      }
+    })
+
     const baseSeries: Highcharts.SeriesOptionsType = {
       type: 'area',
       name: '',
@@ -110,9 +135,9 @@ export class DailyChartComponent implements OnInit {
       ...baseSeries,
       type: 'column',
       name: 'Confirmed cases',
-      color: this.color,
-      data: (data || []).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(({ value, date }) => ({
-        x: new Date(date).getTime(),
+      color: this._color,
+      data: (arr || []).sort((a, b) => (a.date).getTime() - (b.date).getTime()).map(({ value, date }) => ({
+        x: (date).getTime(),
         y: value
       }))
     }

@@ -1,5 +1,5 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Observable, interval, of, combineLatest, merge } from 'rxjs';
+import { Component, OnInit, TemplateRef, OnDestroy } from '@angular/core';
+import { Observable, interval, of, combineLatest, merge, Subscription } from 'rxjs';
 import { mergeMap, startWith, map, finalize, debounceTime } from 'rxjs/operators';
 import { HeaderService } from 'src/app/services/header.service';
 import { ChartsAccumulatedQuery, Accumulation } from 'src/app/graphql/charts-accumulated.query';
@@ -22,7 +22,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   locationDisplay: Observable<string>;
 
@@ -33,6 +33,14 @@ export class LandingComponent implements OnInit {
   regionSelect$: Observable<SelectItem[]>;
   provinceSelect$: Observable<SelectItem[]>;
   citySelect$: Observable<SelectItem[]>;
+
+  regions: SelectItem[];
+  provinces: SelectItem[];
+  cities: SelectItem[];
+
+  regionSubscription: Subscription;
+  citySubscription: Subscription;
+  provinceSubscription: Subscription;
 
   locationForm = new FormGroup({
     region: new FormControl(''),
@@ -66,6 +74,11 @@ export class LandingComponent implements OnInit {
   ngOnInit() {
     this.setPullInterval();
   }
+  ngOnDestroy() {
+    this.regionSubscription.unsubscribe()
+    this.provinceSubscription.unsubscribe()
+    this.citySubscription.unsubscribe()
+  }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {
@@ -91,9 +104,9 @@ export class LandingComponent implements OnInit {
           city: ''
         })
       )).pipe(
-        mergeMap((val) =>
-          this.dashboardQuery.fetch(val[1])
-        ),
+        mergeMap((val) => {
+          return this.dashboardQuery.fetch(val[1])
+        }),
         map(({ data }) => data)
       )
 
@@ -103,7 +116,7 @@ export class LandingComponent implements OnInit {
       map(q => q.data.total)
     )
 
-    this.regionSelect$ = this.apollo.watchQuery<RegionQuery>({
+    this.regionSubscription = this.apollo.watchQuery<RegionQuery>({
       query: regionQuery
     }).valueChanges.pipe(
       mergeMap(q => {
@@ -111,9 +124,11 @@ export class LandingComponent implements OnInit {
         return of(q)
       }),
       map(q => q.data.region),
-    )
+    ).subscribe(val => {
+      this.regions = val;
+    })
 
-    this.provinceSelect$ = this.regionControl.valueChanges.pipe(
+    this.provinceSubscription = this.regionControl.valueChanges.pipe(
       startWith(''),
       mergeMap((region) => {
         this.provinceControl.reset('');
@@ -126,9 +141,11 @@ export class LandingComponent implements OnInit {
         }).valueChanges
       }),
       map(q => q.data.province)
-    )
+    ).subscribe(val => {
+      this.provinces = val;
+    })
 
-    this.citySelect$ = combineLatest(
+    this.citySubscription = combineLatest(
       this.regionControl.valueChanges.pipe(startWith('')),
       this.provinceControl.valueChanges.pipe(startWith(''))).pipe(
         mergeMap(val => {
@@ -144,7 +161,9 @@ export class LandingComponent implements OnInit {
           }).valueChanges
         }),
         map(q => q.data.city)
-      )
+      ).subscribe(val => {
+        this.cities = val;
+      })
 
     this.locationDisplay = this.locationForm.valueChanges.pipe(
       startWith({
