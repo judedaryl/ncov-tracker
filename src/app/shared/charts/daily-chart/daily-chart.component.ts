@@ -98,8 +98,7 @@ export class DailyChartComponent implements OnInit {
   }
 
   buildSeries(data: DailyStatistic[]): Highcharts.SeriesOptionsType[] {
-    if(data.length === 0) return;
-    let latestDate = data[data.length - 1].date;
+    let latestDate = data.length === 0 ? new Date() : data[data.length - 1].date;
     let currDate = new Date(latestDate);
     currDate.setMonth(currDate.getMonth() - 2)
     let copy = new Date(currDate.getTime())
