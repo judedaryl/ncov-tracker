@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ShortcutCardComponent } from './shortcut-card.component';
+import { ShortcutCardComponent } from "./shortcut-card.component";
 
-describe('ShortcutCardComponent', () => {
+describe("ShortcutCardComponent", () => {
   let component: ShortcutCardComponent;
   let fixture: ComponentFixture<ShortcutCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShortcutCardComponent ]
-    })
-    .compileComponents();
+      declarations: [ShortcutCardComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('ShortcutCardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  graphql: 'https://graph.trackncovph.jclarino.com'
+  graphql: "https://graph.trackncovph.jclarino.com",
 };
 
 /*

@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { OpenSourceComponent } from './open-source.component';
+import { OpenSourceComponent } from "./open-source.component";
 
-describe('OpenSourceComponent', () => {
+describe("OpenSourceComponent", () => {
   let component: OpenSourceComponent;
   let fixture: ComponentFixture<OpenSourceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OpenSourceComponent ]
-    })
-    .compileComponents();
+      declarations: [OpenSourceComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('OpenSourceComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

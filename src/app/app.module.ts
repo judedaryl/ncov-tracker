@@ -1,22 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
-import { HighchartsChartModule } from 'highcharts-angular';
-import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LayoutModule } from '@angular/cdk/layout';
-import { SharedModule } from './shared/shared.module';
-import { GraphQLModule } from './graphql.module';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { HttpClientModule } from "@angular/common/http";
+import { AppComponent } from "./app.component";
+import { HighchartsChartModule } from "highcharts-angular";
+import { AppRoutingModule } from "./app-routing.module";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { LayoutModule } from "@angular/cdk/layout";
+import { SharedModule } from "./shared/shared.module";
+import { GraphQLModule } from "./graphql.module";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { PaginationModule } from "ngx-bootstrap/pagination";
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { environment } from "../environments/environment";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -29,12 +27,11 @@ import { environment } from '../environments/environment';
     GraphQLModule,
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
-
-
-
+export class AppModule {}

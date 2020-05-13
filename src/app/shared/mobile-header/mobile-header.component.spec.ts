@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MobileHeaderComponent } from './mobile-header.component';
+import { MobileHeaderComponent } from "./mobile-header.component";
 
-describe('MobileHeaderComponent', () => {
+describe("MobileHeaderComponent", () => {
   let component: MobileHeaderComponent;
   let fixture: ComponentFixture<MobileHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MobileHeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [MobileHeaderComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('MobileHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

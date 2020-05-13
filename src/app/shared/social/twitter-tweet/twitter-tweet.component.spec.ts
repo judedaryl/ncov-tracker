@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TwitterTweetComponent } from './twitter-tweet.component';
+import { TwitterTweetComponent } from "./twitter-tweet.component";
 
-describe('TwitterTweetComponent', () => {
+describe("TwitterTweetComponent", () => {
   let component: TwitterTweetComponent;
   let fixture: ComponentFixture<TwitterTweetComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TwitterTweetComponent ]
-    })
-    .compileComponents();
+      declarations: [TwitterTweetComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('TwitterTweetComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

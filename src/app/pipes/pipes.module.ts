@@ -1,18 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LoadingPipe } from './loading.pipe';
-
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { LoadingPipe } from "./loading.pipe";
 
 @NgModule({
-  declarations: [
-    LoadingPipe
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    LoadingPipe
-  ]
+  declarations: [LoadingPipe],
+  imports: [CommonModule],
+  exports: [LoadingPipe],
 })
-export class PipesModule { }
+export class PipesModule {}

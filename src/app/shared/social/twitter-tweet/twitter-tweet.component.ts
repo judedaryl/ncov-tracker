@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-twitter-tweet',
+  selector: "app-twitter-tweet",
   template: `
-  <a class="twitter-share-button"
-    href="https://twitter.com/intent/tweet?text=Mobile friendly COVID-19 Tracker for the Philippines"
-    data-size="large">
-  Tweet</a>
+    <a
+      class="twitter-share-button"
+      href="https://twitter.com/intent/tweet?text=Mobile friendly COVID-19 Tracker for the Philippines"
+      data-size="large"
+    >
+      Tweet</a
+    >
   `,
-  styles: []
+  styles: [],
 })
 export class TwitterTweetComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -1,28 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Query } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { CaseStatistics } from '../models/case-statistics';
-
-
+import { Injectable } from "@angular/core";
+import { Query } from "apollo-angular";
+import gql from "graphql-tag";
+import { CaseStatistics } from "../models/case-statistics";
 
 export interface StatisticsQueryData {
-    statistics: CaseStatistics;
+  statistics: CaseStatistics;
 }
 
-
 @Injectable({
-    providedIn: 'root',
+  providedIn: "root",
 })
 export class StatisticsQuery extends Query<StatisticsQueryData> {
-    document = gql`
+  document = gql`
     query Statistics {
-        statistics {
-            total,
-            new,
-            admitted,
-            recovered,
-            died:dead
-        }
+      statistics {
+        total
+        new
+        admitted
+        recovered
+        died: dead
+      }
     }
-    `;
+  `;
 }

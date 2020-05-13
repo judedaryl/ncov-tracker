@@ -1,4 +1,4 @@
 export interface DailyStatistic {
-    date: Date
-    value: number
+  date: Date;
+  value: number;
 }

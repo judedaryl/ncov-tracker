@@ -1,17 +1,19 @@
 .header-height {
-    height: 70px;
+  height: 70px;
 }
 .search-input {
-    width: 100%;
+  width: 100%;
+  border: none;
+  &:focus,
+  &:hover,
+  &:active {
     border: none;
-    &:focus, &:hover, &:active {
-        border: none;
-        outline: none;
-    }
+    outline: none;
+  }
 }
 
 .clear-btn {
-    position: absolute;
-    top: 6px;
-    right: 10px;
+  position: absolute;
+  top: 6px;
+  right: 10px;
 }

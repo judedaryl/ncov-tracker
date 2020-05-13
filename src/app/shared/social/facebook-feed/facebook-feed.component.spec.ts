@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FacebookFeedComponent } from './facebook-feed.component';
+import { FacebookFeedComponent } from "./facebook-feed.component";
 
-describe('FacebookFeedComponent', () => {
+describe("FacebookFeedComponent", () => {
   let component: FacebookFeedComponent;
   let fixture: ComponentFixture<FacebookFeedComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FacebookFeedComponent ]
-    })
-    .compileComponents();
+      declarations: [FacebookFeedComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FacebookFeedComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

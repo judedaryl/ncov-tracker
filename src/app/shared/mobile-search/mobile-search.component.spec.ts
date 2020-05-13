@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MobileSearchComponent } from './mobile-search.component';
+import { MobileSearchComponent } from "./mobile-search.component";
 
-describe('MobileSearchComponent', () => {
+describe("MobileSearchComponent", () => {
   let component: MobileSearchComponent;
   let fixture: ComponentFixture<MobileSearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MobileSearchComponent ]
-    })
-    .compileComponents();
+      declarations: [MobileSearchComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('MobileSearchComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

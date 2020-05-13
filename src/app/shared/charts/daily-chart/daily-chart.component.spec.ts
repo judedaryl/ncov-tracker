@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DailyChartComponent } from './daily-chart.component';
+import { DailyChartComponent } from "./daily-chart.component";
 
-describe('DailyChartComponent', () => {
+describe("DailyChartComponent", () => {
   let component: DailyChartComponent;
   let fixture: ComponentFixture<DailyChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DailyChartComponent ]
-    })
-    .compileComponents();
+      declarations: [DailyChartComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('DailyChartComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

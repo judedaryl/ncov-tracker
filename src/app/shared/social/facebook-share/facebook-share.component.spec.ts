@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FacebookShareComponent } from './facebook-share.component';
+import { FacebookShareComponent } from "./facebook-share.component";
 
-describe('FacebookShareComponent', () => {
+describe("FacebookShareComponent", () => {
   let component: FacebookShareComponent;
   let fixture: ComponentFixture<FacebookShareComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FacebookShareComponent ]
-    })
-    .compileComponents();
+      declarations: [FacebookShareComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FacebookShareComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

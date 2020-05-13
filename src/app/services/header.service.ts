@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Observable, BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class HeaderService {
-
   showChanges: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  constructor() { }
+  constructor() {}
 
   show() {
     this.showChanges.next(true);

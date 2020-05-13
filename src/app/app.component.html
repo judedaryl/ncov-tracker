@@ -1,13 +1,26 @@
 <div class="d-flex flex-column h-100">
-  <nav class="navbar navbar-primary bg-white nav-bar border-bottom d-md-flex flex-row d-none"
-    *ngIf="showHeader$ | async">
-    <a class="navbar-brand h1 m-0 text-dark" routerLink="/">COVID Tracker Philippines</a>
+  <nav
+    class="navbar navbar-primary bg-white nav-bar border-bottom d-md-flex flex-row d-none"
+    *ngIf="showHeader$ | async"
+  >
+    <a class="navbar-brand h1 m-0 text-dark" routerLink="/"
+      >COVID Tracker Philippines</a
+    >
     <span class="flex-fill"></span>
     <div class="nav nav-pills">
-      <a class="nav-link" routerLink="/" routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
-      <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
-      <a class="nav-link" routerLink="/open-source" routerLinkActive="active">Open source</a>
+      <a
+        class="nav-link"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Dashboard</a
+      >
+      <a class="nav-link" routerLink="/about" routerLinkActive="active"
+        >About</a
+      >
+      <a class="nav-link" routerLink="/open-source" routerLinkActive="active"
+        >Open source</a
+      >
     </div>
   </nav>
 

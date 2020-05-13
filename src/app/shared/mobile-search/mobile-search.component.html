@@ -1,18 +1,19 @@
-<div class="
-    header-height 
-    border-bottom 
-    bg-white 
-    px-3 
-    py-2
-    d-flex 
-    flex-row 
-    align-items-center
-">
-    <a [routerLink]="backLink">
-        <i class="fas fa-arrow-left text-secondary mr-3"></i>
-    </a>
-    <form class="flex-fill">
-        <input class="search-input" [placeholder]="placeholder" [formControl]="searchCtrl" />
-    </form>
-    <i class="ml-3 fas fa-times text-dark" *ngIf="isNotEmpty$ | async" (click)="searchCtrl.reset('')"></i>
+<div
+  class="header-height border-bottom bg-white px-3 py-2 d-flex flex-row align-items-center"
+>
+  <a [routerLink]="backLink">
+    <i class="fas fa-arrow-left text-secondary mr-3"></i>
+  </a>
+  <form class="flex-fill">
+    <input
+      class="search-input"
+      [placeholder]="placeholder"
+      [formControl]="searchCtrl"
+    />
+  </form>
+  <i
+    class="ml-3 fas fa-times text-dark"
+    *ngIf="isNotEmpty$ | async"
+    (click)="searchCtrl.reset('')"
+  ></i>
 </div>

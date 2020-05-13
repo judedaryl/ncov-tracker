@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Query } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { DailyStatistic } from '../models/daily-statistic';
+import { Injectable } from "@angular/core";
+import { Query } from "apollo-angular";
+import gql from "graphql-tag";
+import { DailyStatistic } from "../models/daily-statistic";
 
 export interface ChartsDailyQueryData {
-    total: DailyStatistic[];
-    died: DailyStatistic[];
-    recovered: DailyStatistic[];
-    admitted: DailyStatistic[];
-    active: DailyStatistic[];
+  total: DailyStatistic[];
+  died: DailyStatistic[];
+  recovered: DailyStatistic[];
+  admitted: DailyStatistic[];
+  active: DailyStatistic[];
 }
 
-
 @Injectable({
-    providedIn: 'root',
+  providedIn: "root",
 })
 export class ChartsDailyQuery extends Query<ChartsDailyQueryData> {
-    document = gql`
+  document = gql`
         fragment dailyFrag on DailyStatistic {
             value
             date
