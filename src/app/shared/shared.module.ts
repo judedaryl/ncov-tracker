@@ -15,6 +15,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MobileSearchComponent } from './mobile-search/mobile-search.component';
 import { DailyChartComponent } from './charts/daily-chart/daily-chart.component';
+import { LocationStatisticTableComponent } from './location-statistic-table/location-statistic-table.component';
+import { DirectivesModule } from '../directives/directives.module';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 @NgModule({
@@ -30,14 +33,17 @@ import { DailyChartComponent } from './charts/daily-chart/daily-chart.component'
     FooterComponent,
     MobileHeaderComponent,
     MobileSearchComponent,
-    DailyChartComponent
+    DailyChartComponent,
+    LocationStatisticTableComponent
   ],
   imports: [
     CommonModule,
     HighchartsChartModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    DirectivesModule,
+    PaginationModule.forRoot(),
   ],
   exports: [
     AgeChartComponent,
@@ -51,7 +57,8 @@ import { DailyChartComponent } from './charts/daily-chart/daily-chart.component'
     FooterComponent,
     MobileHeaderComponent,
     MobileSearchComponent,
-    DailyChartComponent
+    DailyChartComponent,
+    LocationStatisticTableComponent
   ]
 })
 export class SharedModule { }

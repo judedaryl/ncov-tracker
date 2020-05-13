@@ -9,6 +9,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { SharedModule } from './shared/shared.module';
 import { GraphQLModule } from './graphql.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -26,6 +27,7 @@ import { environment } from '../environments/environment';
     LayoutModule,
     SharedModule,
     GraphQLModule,
+    PaginationModule.forRoot(),
     ModalModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

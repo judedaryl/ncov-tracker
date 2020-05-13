@@ -15,6 +15,7 @@ import gql from 'graphql-tag';
 import { regionQuery, provinceQuery, cityQuery, RegionQuery, ProvinceQuery, ProvinceQueryVariables, CityQuery, CityQueryVariables } from './landing.queries';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { LocationQueryData, LocationQuery } from './location.query';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   dashboardData$: Observable<DashboardQueryData>;
   caseStatistics$: Observable<Accumulation[][]>;
   ageGroupStatistics$: Observable<AgeGroupDistribution[]>;
+  locationData$: Observable<LocationQueryData>;
 
   regionSelect$: Observable<SelectItem[]>;
   provinceSelect$: Observable<SelectItem[]>;
@@ -60,6 +62,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     private accumulatedChartsQuery: ChartsAccumulatedQuery,
     private apollo: Apollo,
     private modalService: BsModalService,
+    private locationQuery: LocationQuery,
     header: HeaderService
   ) {
     header.show();
@@ -184,6 +187,15 @@ export class LandingComponent implements OnInit, OnDestroy {
           return 'Philippines'
         }
       })
+    )
+
+    this.locationData$ = this.locationQuery.fetch().pipe(
+      map(apollo => 
+       {
+         console.log(apollo.data)
+         return   apollo.data;
+       }
+      )
     )
   }
 

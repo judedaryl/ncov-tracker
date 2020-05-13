@@ -1,0 +1,82 @@
+<div class="d-flex justify-content-start">
+    <div class="input-group input-group-sm mb-3 search-input">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <i class="fas fa-search"></i>
+            </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1"
+            [formControl]="searchControl">
+    </div>
+</div>
+<ng-container *ngIf="_data | async as items ">
+    <table class="table table-sm table-borderless table-striped">
+        <thead>
+            <tr>
+                <th sortable="name" (sort)="sortEvent.next($event)">
+                    <span>Name</span>
+                </th>
+                <th sortable="total" (sort)="sortEvent.next($event)">
+                    <i class="fas fa-user text-primary"></i>
+                    <span class="d-none d-md-inline-block ml-2">Total cases</span>
+                </th>
+                <th class="d-none d-md-inline-block" sortable="new" (sort)="sortEvent.next($event)">
+                    Change
+                </th>
+                <th sortable="recovered" (sort)="sortEvent.next($event)">
+                    <i class="fas fa-user-check text-success"></i>
+                    <span class="d-none d-md-inline-block ml-2">Recovered</span>
+                </th>
+                <th class="d-none d-md-inline-block" sortable="recoveredNew" (sort)="sortEvent.next($event)">Change
+                </th>
+                <th sortable="died" (sort)="sortEvent.next($event)">
+                    <i class="fas fa-skull text-danger"></i>
+                    <span class="d-none d-md-inline-block ml-2">Died</span>
+                </th>
+                <th class="d-none d-md-inline-block" sortable="diedNew" (sort)="sortEvent.next($event)">Change</th>
+                <th sortable="active" (sort)="sortEvent.next($event)">
+                    <i class="fas fa-user-plus text-success"></i>
+                    <span class="d-none d-md-inline-block ml-2">Recovered</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let loc of items">
+                <td> {{ loc.name}}</td>
+                <td class="text-primary">{{ loc.total }}</td>
+                <td class="d-none d-md-inline-block text-primary">
+                    <span *ngIf="loc.new != 0">
+                        <i class="fas fa-long-arrow-alt-up"></i> {{ loc.new }}
+                        ({{ loc.new / (loc.total - loc.new) | percent: '0.2' }})
+                    </span>
+                </td>
+                <td class="text-success">{{ loc.recovered }}</td>
+                <td class="d-none d-md-inline-block text-success">
+                    <span *ngIf="loc.recoveredNew != 0">
+                        <i class="fas fa-long-arrow-alt-up"></i> {{ loc.recoveredNew }}
+                        ({{ loc.recoveredNew / (loc.recovered - loc.recoveredNew) | percent: '0.2' }})
+                    </span>
+                </td>
+                <td class="text-danger">{{ loc.died }}</td>
+                <td class="d-none d-md-inline-block text-danger">
+                    <span *ngIf="loc.diedNew != 0">
+                        <i class="fas fa-long-arrow-alt-up"></i> {{ loc.diedNew }}
+                        ({{ loc.diedNew / (loc.died - loc.diedNew) | percent: '0.2' }})
+                    </span>
+                </td>
+                <td class="text-warning">{{ loc.active }}</td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>
+<pagination [totalItems]="totalItems" [rotate]="false" [maxSize]="3" [directionLinks]="false" [boundaryLinks]="true"
+    [itemsPerPage]="10" [customFirstTemplate]="firstTemplate" [customLastTemplate]="lastTemplate"
+    (pageChanged)="pageChanged.next($event)"></pagination>
+
+<ng-template #lastTemplate let-disabled="disabled" let-currentPage="currentPage">
+    <i class="fas fa-angle-double-right"></i>
+</ng-template>
+
+<ng-template #firstTemplate let-disabled="disabled" let-currentPage="currentPage">
+    <i class="fas fa-angle-double-left"></i>
+</ng-template>
